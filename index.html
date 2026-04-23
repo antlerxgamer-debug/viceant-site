@@ -193,6 +193,9 @@ a{color:inherit;text-decoration:none}
 .whip .beam{position:absolute;top:50%;height:12px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;border-radius:20px;will-change:transform,opacity}
 .whip .beam.l{right:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.0) 4%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:right center}
 .whip .beam.r{left:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:left center}
+/* maybach = white beams */
+.whip.maybach .beam.l{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.0) 4%,rgba(220,235,255,.9) 18%,#ffffff 45%,#ffffff 55%,rgba(220,235,255,.9) 82%,transparent 100%)}
+.whip.maybach .beam.r{background:linear-gradient(90deg,transparent 0%,rgba(220,235,255,.9) 18%,#ffffff 45%,#ffffff 55%,rgba(220,235,255,.9) 82%,transparent 100%)}
 .whip:hover .beam{animation:beamShoot 1s cubic-bezier(.15,.9,.2,1) forwards}
 .whip:hover .beam.l{animation-delay:.05s}
 .whip:hover .beam.r{animation-delay:.08s}
@@ -387,6 +390,7 @@ a{color:inherit;text-decoration:none}
 <!-- audio elements -->
 <audio id="a-scream" src="assets/scream.mp3" preload="auto"></audio>
 <audio id="a-ultra" src="assets/bgm.mp3" preload="auto" loop></audio>
+<audio id="a-maybach" src="assets/maybach.mp3" preload="auto" loop></audio>
 <audio id="a-warrior" src="assets/warrior.mp3" preload="auto"></audio>
 
 <script>
@@ -591,10 +595,26 @@ a{color:inherit;text-decoration:none}
       container.appendChild(s);
     }
   };
+  const bgm = document.getElementById('a-ultra');
+  const maybachSong = document.getElementById('a-maybach');
   whips.forEach(w => {
     let armed = true;
     w.addEventListener('pointerenter', () => {
       if (!armed) return; armed = false;
+      // swap soundtrack on maybach hover
+      if (w.classList.contains('maybach') && maybachSong) {
+        try {
+          if (!bgm.paused) bgm.pause();
+          maybachSong.currentTime = 0;
+          maybachSong.volume = 0.6;
+          maybachSong.play().catch(()=>{});
+        } catch(e){}
+      } else if (w.classList.contains('lambo') && bgm) {
+        try {
+          if (!maybachSong.paused) maybachSong.pause();
+          if (bgm.paused) bgm.play().catch(()=>{});
+        } catch(e){}
+      }
       // spawn fresh sparks on each hover
       mkSparks(w.querySelector('.sparks.sl'), 'l');
       mkSparks(w.querySelector('.sparks.sr'), 'r');
