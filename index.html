@@ -422,7 +422,7 @@ a{color:inherit;text-decoration:none}
 
 /* ============ MARIO GROUND — persistent bottom strip ============ */
 body{padding-bottom:84px}
-.mground{position:fixed !important;left:0 !important;right:0 !important;bottom:0 !important;height:84px !important;z-index:500 !important;pointer-events:none;overflow:visible !important;font-family:"Press Start 2P","Courier New",monospace;display:block !important;visibility:visible !important;opacity:1 !important}
+.mground{position:fixed !important;left:0 !important;right:0 !important;bottom:0 !important;height:84px !important;z-index:500 !important;pointer-events:none;overflow:visible !important;font-family:"Press Start 2P","Courier New",monospace;display:block !important;visibility:visible !important;opacity:1 !important;contain:layout style paint;transform:translateZ(0)}
 .mground-grass{position:absolute;left:0;right:0;bottom:40px;height:22px;background:linear-gradient(#7fd13b 0%,#4fa01e 60%,#2f7d12 100%);box-shadow:inset 0 -3px 0 #2f7d12,0 -2px 8px rgba(0,0,0,.5)}
 .mground-grass::before{content:"";position:absolute;left:0;right:0;top:-10px;height:12px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 14' preserveAspectRatio='none'><path d='M0 14 L0 8 L4 8 L4 4 L8 4 L8 8 L12 8 L12 2 L16 2 L16 6 L20 6 L20 0 L24 0 L24 4 L28 4 L28 8 L32 8 L32 2 L36 2 L36 6 L40 6 L40 14 Z' fill='%237fd13b'/></svg>");background-size:40px 14px;background-repeat:repeat-x;filter:drop-shadow(0 -1px 0 #2f7d12)}
 .mground-dirt{position:absolute;left:0;right:0;bottom:0;height:40px;background:
@@ -849,15 +849,15 @@ body{padding-bottom:84px}
   const maybachA = document.getElementById('a-maybach');
   const lamboA = document.getElementById('a-lambo');
   const yellA = document.getElementById('a-yell');
-  let on = false;
+  let on = true;
   ultra.volume = 0.35;
   scream.volume = 0.55;
   warrior.volume = 0.6;
   if (maybachA) maybachA.volume = 0.6;
   if (lamboA) lamboA.volume = 0.6;
 
-  // global mute flag so hover handlers respect it
-  window.__muted = true;
+  // global mute flag so hover handlers respect it — start UNMUTED (autoplay on entry)
+  window.__muted = false;
 
   const muteAll = () => {
     [ultra, scream, warrior, maybachA, lamboA, yellA].forEach(a => {
@@ -873,8 +873,25 @@ body{padding-bottom:84px}
     });
   };
 
-  // start muted
-  muteAll();
+  // start UNMUTED — try to autoplay BGM immediately on entry
+  unmuteAll();
+  const tryAutoplay = () => {
+    ultra.play().then(() => {
+      btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+    }).catch(() => {
+      // browsers may block until a user gesture — kick in on first interaction
+      const kick = () => {
+        ultra.play().catch(()=>{});
+        btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+        ['click','touchstart','keydown','scroll','mousemove'].forEach(ev =>
+          document.removeEventListener(ev, kick, true));
+      };
+      ['click','touchstart','keydown','scroll','mousemove'].forEach(ev =>
+        document.addEventListener(ev, kick, {capture:true, once:false}));
+    });
+  };
+  tryAutoplay();
+  btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
 
   btn.addEventListener('click', () => {
     on = !on;
@@ -1301,6 +1318,10 @@ body{padding-bottom:84px}
   const host = document.querySelector('.mground');
   if (!host) return;
 
+  // pause battles when tab hidden — huge CPU saver, no visual cost when visible
+  let paused = document.hidden;
+  document.addEventListener('visibilitychange', () => { paused = document.hidden; });
+
   // track each fighter's current Y offset so jumping composes correctly
   const fState = new WeakMap();
   const getY = el => { const s = fState.get(el); return s ? s.y : 0; };
@@ -1374,17 +1395,22 @@ body{padding-bottom:84px}
     const ki = document.createElement('div');
     ki.className = 'kiblast';
     ki.style.setProperty('--kc', color);
-    ki.style.left = (fromX + dir * 18) + 'px';
+    const kiStartX = fromX + dir * 18;
+    ki.style.left = kiStartX + 'px';
     ki.style.bottom = startY + 'px';
-    if (dir < 0) ki.style.transform = 'scaleX(-1)';
+    ki.style.willChange = 'transform,opacity';
     host.appendChild(ki);
     spawnSpeedlines(fromX + dir * 30, 3, color);
+    const flipX = dir < 0 ? -1 : 1;
     if (!window.anime) { setTimeout(() => { impact(toX, endY, toEl, color); ki.remove(); }, 520); return; }
+    // animate via translate (GPU) instead of left/bottom (layout thrash)
+    const dx = toX - kiStartX;
+    const dy = -(endY - startY);
     anime({
       targets: ki,
-      left: toX + 'px',
-      bottom: [startY, startY + 12, endY],
-      scale: [0.6, 1.4, 1.1],
+      translateX: [0, dx],
+      translateY: [{value: dy*.4 - 12, duration: 180}, {value: dy, duration: 240}],
+      scale: [{value: flipX * 0.6, duration: 1}, {value: flipX * 1.4, duration: 180}, {value: flipX * 1.1, duration: 220}],
       duration: 380 + Math.random() * 140,
       easing: 'easeOutQuad',
       complete: () => { impact(toX, endY, toEl, color); ki.remove(); }
@@ -1496,22 +1522,14 @@ body{padding-bottom:84px}
       ],
       complete: () => setY(el, 0)
     });
-    // afterimage trail
+    // afterimage trail — lightweight ghost (single img, no nested children)
+    const srcImg = el.querySelector('img');
     for (let i = 0; i < 3; i++) {
       setTimeout(() => {
-        const ghost = el.cloneNode(true);
         const r = el.getBoundingClientRect();
-        ghost.style.position = 'fixed';
-        ghost.style.left = r.left + 'px';
-        ghost.style.top = r.top + 'px';
-        ghost.style.width = r.width + 'px';
-        ghost.style.height = r.height + 'px';
-        ghost.style.bottom = 'auto';
-        ghost.style.right = 'auto';
-        ghost.style.opacity = '.5';
-        ghost.style.filter = 'brightness(1.6) saturate(2) drop-shadow(0 0 8px var(--kc,#fff))';
-        ghost.style.pointerEvents = 'none';
-        ghost.style.zIndex = '4';
+        const ghost = document.createElement('img');
+        ghost.src = srcImg ? srcImg.src : '';
+        ghost.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;opacity:.5;filter:brightness(1.6) saturate(2) drop-shadow(0 0 8px var(--kc,#fff));pointer-events:none;z-index:4;image-rendering:pixelated;will-change:transform,opacity`;
         document.body.appendChild(ghost);
         anime({
           targets: ghost,
@@ -1572,7 +1590,7 @@ body{padding-bottom:84px}
         () => { clash(a, b, colorA, colorB); },
         () => { jumpAttack(a); jumpAttack(b); setTimeout(() => { spawnKi(a, b, colorA); spawnKi(b, a, colorB); }, 280); },
       ];
-      moves[Math.floor(Math.random() * moves.length)]();
+      if (!paused) moves[Math.floor(Math.random() * moves.length)]();
       setTimeout(fight, 900 + Math.random() * 1400);
     };
     setTimeout(fight, 400 + Math.random() * 1200);
