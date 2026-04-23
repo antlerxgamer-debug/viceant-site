@@ -68,11 +68,11 @@ a{color:inherit;text-decoration:none}
 @keyframes rise{0%{transform:translateY(0) scale(0);opacity:0}10%{opacity:1;transform:translateY(-20px) scale(1)}100%{transform:translateY(-360px) scale(.2);opacity:0}}
 
 /* name */
-.name{font-family:"Inter",sans-serif;font-weight:900;font-size:clamp(48px,12vw,88px);letter-spacing:-.04em;line-height:.9;text-align:center;position:relative;background:linear-gradient(180deg,#fff 0%,#ffe27a 35%,#ffcb2e 55%,#ff6a00 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 20px rgba(255,203,46,.6));text-transform:uppercase}
+.name{font-family:"Inter",sans-serif;font-weight:900;font-size:clamp(64px,16vw,132px);letter-spacing:-.045em;line-height:.88;text-align:center;position:relative;background:linear-gradient(180deg,#fff 0%,#ffe27a 35%,#ffcb2e 55%,#ff6a00 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 28px rgba(255,203,46,.65));text-transform:uppercase}
 .name .glitch{position:relative;display:inline-block}
 .name .glitch::before,.name .glitch::after{content:attr(data-t);position:absolute;inset:0;background:linear-gradient(180deg,#fff,#ffcb2e,#ff6a00);-webkit-background-clip:text;background-clip:text;color:transparent;mix-blend-mode:screen;pointer-events:none}
-.name .glitch::before{animation:gl1 3s infinite steps(1);text-shadow:2px 0 #7fe7ff}
-.name .glitch::after{animation:gl2 3.3s infinite steps(1);text-shadow:-2px 0 #ff2d2d}
+.name .glitch::before{animation:gl1 5.5s infinite steps(1);text-shadow:2px 0 #7fe7ff}
+.name .glitch::after{animation:gl2 6s infinite steps(1);text-shadow:-2px 0 #ff2d2d}
 @keyframes gl1{0%,92%,100%{clip-path:inset(100% 0 0 0)}93%{clip-path:inset(10% 0 60% 0);transform:translate(-3px,-1px)}95%{clip-path:inset(60% 0 20% 0);transform:translate(2px,1px)}97%{clip-path:inset(30% 0 40% 0);transform:translate(-1px,0)}}
 @keyframes gl2{0%,91%,100%{clip-path:inset(100% 0 0 0)}92%{clip-path:inset(40% 0 30% 0);transform:translate(3px,1px)}94%{clip-path:inset(70% 0 10% 0);transform:translate(-2px,-1px)}96%{clip-path:inset(20% 0 50% 0);transform:translate(1px,0)}}
 
@@ -173,6 +173,17 @@ a{color:inherit;text-decoration:none}
       <div class="lbl">
         <b>FREE Skill Files & AI Resources</b>
         <span>Join the community · Like-minded people</span>
+      </div>
+      <div class="arr">→</div>
+    </a>
+
+    <!-- FREE TOOLS -->
+    <a class="card featured" href="https://tryhively.com/tools" data-link="tools" target="_blank" rel="noopener">
+      <span class="flame" style="background:#ffcb2e;color:#000">FREE</span>
+      <div class="ic w">🛠</div>
+      <div class="lbl">
+        <b>Free Business Tools</b>
+        <span>Hively · Grow your business free</span>
       </div>
       <div class="arr">→</div>
     </a>
