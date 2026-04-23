@@ -873,25 +873,23 @@ body{padding-bottom:84px}
     });
   };
 
-  // start UNMUTED — try to autoplay BGM immediately on entry
-  unmuteAll();
-  const tryAutoplay = () => {
-    ultra.play().then(() => {
-      btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
-    }).catch(() => {
-      // browsers may block until a user gesture — kick in on first interaction
-      const kick = () => {
-        ultra.play().catch(()=>{});
-        btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
-        ['click','touchstart','keydown','scroll','mousemove'].forEach(ev =>
-          document.removeEventListener(ev, kick, true));
-      };
-      ['click','touchstart','keydown','scroll','mousemove'].forEach(ev =>
-        document.addEventListener(ev, kick, {capture:true, once:false}));
-    });
-  };
-  tryAutoplay();
+  // Autoplay hack: browsers allow muted-autoplay. Start playing MUTED, then
+  // unmute the moment the user interacts with anything (click/scroll/tap/key).
+  ultra.muted = true;
+  ultra.loop = true;
+  ultra.play().catch(()=>{});
   btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+  window.__muted = false;
+
+  const unmuteOnGesture = () => {
+    try { ultra.muted = false; } catch(e){}
+    try { ultra.play().catch(()=>{}); } catch(e){}
+    unmuteAll();
+    ['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev =>
+      window.removeEventListener(ev, unmuteOnGesture, true));
+  };
+  ['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev =>
+    window.addEventListener(ev, unmuteOnGesture, {capture:true}));
 
   btn.addEventListener('click', () => {
     on = !on;
@@ -1395,22 +1393,18 @@ body{padding-bottom:84px}
     const ki = document.createElement('div');
     ki.className = 'kiblast';
     ki.style.setProperty('--kc', color);
-    const kiStartX = fromX + dir * 18;
-    ki.style.left = kiStartX + 'px';
+    ki.style.left = (fromX + dir * 18) + 'px';
     ki.style.bottom = startY + 'px';
-    ki.style.willChange = 'transform,opacity';
+    ki.style.willChange = 'transform,left,bottom,opacity';
+    if (dir < 0) ki.style.transform = 'scaleX(-1)';
     host.appendChild(ki);
     spawnSpeedlines(fromX + dir * 30, 3, color);
-    const flipX = dir < 0 ? -1 : 1;
     if (!window.anime) { setTimeout(() => { impact(toX, endY, toEl, color); ki.remove(); }, 520); return; }
-    // animate via translate (GPU) instead of left/bottom (layout thrash)
-    const dx = toX - kiStartX;
-    const dy = -(endY - startY);
     anime({
       targets: ki,
-      translateX: [0, dx],
-      translateY: [{value: dy*.4 - 12, duration: 180}, {value: dy, duration: 240}],
-      scale: [{value: flipX * 0.6, duration: 1}, {value: flipX * 1.4, duration: 180}, {value: flipX * 1.1, duration: 220}],
+      left: toX + 'px',
+      bottom: [startY, startY + 12, endY],
+      scale: [0.6, 1.4, 1.1],
       duration: 380 + Math.random() * 140,
       easing: 'easeOutQuad',
       complete: () => { impact(toX, endY, toEl, color); ki.remove(); }
