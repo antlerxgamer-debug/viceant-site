@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="0" />
 <meta name="theme-color" content="#0a0a0f" />
 <title>VICEANT — Ultra Instinct</title>
 <meta name="description" content="ViceAnt — the official hub. Course, socials, everything in one place." />
@@ -419,7 +422,7 @@ a{color:inherit;text-decoration:none}
 
 /* ============ MARIO GROUND — persistent bottom strip ============ */
 body{padding-bottom:84px}
-.mground{position:fixed;left:0;right:0;bottom:0;height:84px;z-index:50;pointer-events:none;overflow:visible;font-family:"Press Start 2P","Courier New",monospace}
+.mground{position:fixed !important;left:0 !important;right:0 !important;bottom:0 !important;height:84px !important;z-index:500 !important;pointer-events:none;overflow:visible !important;font-family:"Press Start 2P","Courier New",monospace;display:block !important;visibility:visible !important;opacity:1 !important}
 .mground-grass{position:absolute;left:0;right:0;bottom:40px;height:22px;background:linear-gradient(#7fd13b 0%,#4fa01e 60%,#2f7d12 100%);box-shadow:inset 0 -3px 0 #2f7d12,0 -2px 8px rgba(0,0,0,.5)}
 .mground-grass::before{content:"";position:absolute;left:0;right:0;top:-10px;height:12px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 14' preserveAspectRatio='none'><path d='M0 14 L0 8 L4 8 L4 4 L8 4 L8 8 L12 8 L12 2 L16 2 L16 6 L20 6 L20 0 L24 0 L24 4 L28 4 L28 8 L32 8 L32 2 L36 2 L36 6 L40 6 L40 14 Z' fill='%237fd13b'/></svg>");background-size:40px 14px;background-repeat:repeat-x;filter:drop-shadow(0 -1px 0 #2f7d12)}
 .mground-dirt{position:absolute;left:0;right:0;bottom:0;height:40px;background:
@@ -475,7 +478,7 @@ body{padding-bottom:84px}
 @keyframes mgBlockPulse{0%,100%{transform:translateY(0);filter:brightness(1)}50%{transform:translateY(-6px);filter:brightness(1.3) drop-shadow(0 0 10px rgba(255,200,0,.6))}}
 
 /* ============ PIXEL FIGHTERS ON THE GROUND ============ */
-.fighter{position:absolute;bottom:62px;width:54px;height:72px;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;pointer-events:none;z-index:52;transform-origin:50% 100%;will-change:transform,filter}
+.fighter{position:absolute;bottom:62px;width:54px;height:72px;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;pointer-events:none;z-index:502;transform-origin:50% 100%;will-change:transform,filter}
 .fighter img{width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5))}
 .fighter .aura-f{position:absolute;left:-16px;right:-16px;top:-18px;bottom:-6px;background:radial-gradient(ellipse at 50% 60%,var(--ac) 0%,transparent 72%);filter:blur(5px);mix-blend-mode:screen;opacity:0;pointer-events:none;z-index:-1}
 .fighter .charge-orb{position:absolute;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#fff 0%,var(--kc,#ffd84a) 45%,rgba(255,120,0,.4) 80%,transparent 100%);box-shadow:0 0 18px var(--kc,#ffd84a),0 0 36px var(--kc,#ffd84a);mix-blend-mode:screen;pointer-events:none;opacity:0;top:28px}
