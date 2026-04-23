@@ -150,7 +150,7 @@ a{color:inherit;text-decoration:none}
 @keyframes float-l{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(20px,-30px) rotate(2deg)}}
 @keyframes float-r{0%,100%{transform:translate(0,0) rotate(2deg)}50%{transform:translate(-25px,-25px) rotate(-2deg)}}
 @keyframes bounce-m{0%,100%{translate:0 0}50%{translate:0 -18px}}
-.whip:hover{filter:brightness(1.4)}
+.whip:hover{filter:brightness(1.15)}
 .whip:hover .aura{opacity:1;transform:scale(1.35)}
 .whip .streak{position:absolute;top:50%;height:3px;border-radius:3px;opacity:0;pointer-events:none}
 .whip.lambo .streak{right:100%;width:0;background:linear-gradient(90deg,transparent,#ffcb2e,#fff)}
@@ -161,36 +161,24 @@ a{color:inherit;text-decoration:none}
 .whip:hover .flare{animation:flareUp .7s ease-out}
 @keyframes flareUp{0%{opacity:0;transform:scale(.5)}40%{opacity:1}100%{opacity:0;transform:scale(1.8)}}
 
-/* energy beams shooting from both sides of the car */
-.whip .beam{position:absolute;top:50%;height:6px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;mix-blend-mode:screen;border-radius:6px}
-.whip .beam.l{right:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:right center}
-.whip .beam.r{left:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:left center}
-.whip .beam{box-shadow:0 0 14px currentColor,0 0 30px currentColor}
-/* idle auto-firing beams (every few seconds, different per car) */
-.whip.lambo .beam{animation:beamIdle 5s ease-in-out infinite}
-.whip.maybach .beam{animation:beamIdle 5.5s ease-in-out infinite}
-.whip.lambo .beam.r{animation-delay:.1s}
-.whip.maybach .beam.l{animation-delay:2.5s}
-.whip.maybach .beam.r{animation-delay:2.7s}
-@keyframes beamIdle{
-  0%,82%,100%{opacity:0;transform:translateY(-50%) scaleX(0)}
-  84%{opacity:1}
-  94%{opacity:1;transform:translateY(-50%) scaleX(1)}
-  99%{opacity:0;transform:translateY(-50%) scaleX(1.1)}
-}
-.whip:hover .beam{animation:beamShoot .9s cubic-bezier(.15,.9,.2,1) forwards!important}
-.whip:hover .beam.l{animation-delay:.05s!important}
-.whip:hover .beam.r{animation-delay:.08s!important}
+/* energy beams shooting from both sides of the car (purple ki beam w/ white hot core) */
+.whip .beam{position:absolute;top:50%;height:12px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;border-radius:20px;will-change:transform,opacity}
+.whip .beam.l{right:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.0) 4%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:right center}
+.whip .beam.r{left:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:left center}
+.whip .beam{box-shadow:0 0 18px #b45bff,0 0 42px rgba(140,50,220,.7)}
+.whip:hover .beam{animation:beamShoot 1s cubic-bezier(.15,.9,.2,1) forwards}
+.whip:hover .beam.l{animation-delay:.05s}
+.whip:hover .beam.r{animation-delay:.08s}
 @keyframes beamShoot{
   0%{opacity:0;transform:translateY(-50%) scaleX(0)}
   10%{opacity:1}
   55%{opacity:1;transform:translateY(-50%) scaleX(1)}
-  85%{opacity:.85}
-  100%{opacity:0;transform:translateY(-50%) scaleX(1.15)}
+  85%{opacity:.9}
+  100%{opacity:0;transform:translateY(-50%) scaleX(1.12)}
 }
 
 /* endpoint impact burst (where beam hits the viewport edge) */
-.whip .impact{position:absolute;top:50%;width:90px;height:90px;transform:translate(-50%,-50%) scale(0);border-radius:50%;background:radial-gradient(circle,#fff 0%,currentColor 40%,transparent 70%);mix-blend-mode:screen;pointer-events:none;opacity:0;filter:blur(2px)}
+.whip .impact{position:absolute;top:50%;width:120px;height:120px;transform:translate(-50%,-50%) scale(0);border-radius:50%;background:radial-gradient(circle,#fff 0%,#e6c9ff 25%,#b45bff 50%,transparent 72%);pointer-events:none;opacity:0;box-shadow:0 0 40px #b45bff}
 .whip .impact.l{left:0}
 .whip .impact.r{right:0;transform:translate(50%,-50%) scale(0)}
 .whip:hover .impact{animation:impactBurst .9s ease-out forwards}
@@ -210,7 +198,7 @@ a{color:inherit;text-decoration:none}
 
 /* ejected spark particles from the beam */
 .whip .sparks{position:absolute;top:50%;left:0;right:0;height:0;pointer-events:none}
-.whip .sparks i{position:absolute;top:0;width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor,0 0 16px #fff;opacity:0}
+.whip .sparks i{position:absolute;top:0;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 6px #b45bff,0 0 12px #b45bff;opacity:0}
 .whip:hover .sparks i{animation:sparkFly 1s ease-out forwards}
 @keyframes sparkFly{
   0%{opacity:0;transform:translate(0,0) scale(1)}
@@ -219,7 +207,7 @@ a{color:inherit;text-decoration:none}
 }
 
 /* expanding shockwave ring */
-.whip .shockwave{position:absolute;inset:50% 50%;width:0;height:0;border-radius:50%;border:3px solid currentColor;opacity:0;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:screen;box-shadow:0 0 30px currentColor,inset 0 0 30px currentColor}
+.whip .shockwave{position:absolute;inset:50% 50%;width:0;height:0;border-radius:50%;border:3px solid #c78bff;opacity:0;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 24px #b45bff}
 .whip:hover .shockwave{animation:shock 1s ease-out}
 .whip:hover .shockwave.d2{animation:shock 1.1s ease-out .15s}
 @keyframes shock{
