@@ -533,15 +533,46 @@ a{color:inherit;text-decoration:none}
   const ultra = document.getElementById('a-ultra');
   const scream = document.getElementById('a-scream');
   const warrior = document.getElementById('a-warrior');
+  const maybachA = document.getElementById('a-maybach');
+  const lamboA = document.getElementById('a-lambo');
   let on = false;
   ultra.volume = 0.35;
   scream.volume = 0.55;
   warrior.volume = 0.6;
+  if (maybachA) maybachA.volume = 0.6;
+  if (lamboA) lamboA.volume = 0.6;
+
+  // global mute flag so hover handlers respect it
+  window.__muted = true;
+
+  const muteAll = () => {
+    [ultra, scream, warrior, maybachA, lamboA].forEach(a => {
+      if (!a) return;
+      try { a.pause(); a.currentTime = 0; } catch(e){}
+      try { a.muted = true; } catch(e){}
+    });
+  };
+  const unmuteAll = () => {
+    [ultra, scream, warrior, maybachA, lamboA].forEach(a => {
+      if (!a) return;
+      try { a.muted = false; } catch(e){}
+    });
+  };
+
+  // start muted
+  muteAll();
 
   btn.addEventListener('click', () => {
     on = !on;
-    if (on) { ultra.play().catch(()=>{}); btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff'; }
-    else { ultra.pause(); btn.innerHTML = '🔊 SOUND: OFF'; btn.style.color = '#ffcb2e'; }
+    window.__muted = !on;
+    if (on) {
+      unmuteAll();
+      ultra.play().catch(()=>{});
+      btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+    } else {
+      muteAll();
+      btn.innerHTML = '🔊 SOUND: OFF'; btn.style.color = '#ffcb2e';
+    }
   });
 
   // scream on hero click with flash
@@ -612,13 +643,15 @@ a{color:inherit;text-decoration:none}
     let armed = true;
     w.addEventListener('pointerenter', () => {
       if (!armed) return; armed = false;
-      // swap soundtrack per car
-      if (w.classList.contains('maybach') && maybachSong) {
-        pauseAll(bgm, lamboSong);
-        try { maybachSong.currentTime = 0; maybachSong.volume = 0.6; maybachSong.play().catch(()=>{}); } catch(e){}
-      } else if (w.classList.contains('lambo') && lamboSong) {
-        pauseAll(bgm, maybachSong);
-        try { lamboSong.currentTime = 0; lamboSong.volume = 0.6; lamboSong.play().catch(()=>{}); } catch(e){}
+      // swap soundtrack per car (only if sound is on)
+      if (!window.__muted) {
+        if (w.classList.contains('maybach') && maybachSong) {
+          pauseAll(bgm, lamboSong);
+          try { maybachSong.currentTime = 0; maybachSong.volume = 0.6; maybachSong.play().catch(()=>{}); } catch(e){}
+        } else if (w.classList.contains('lambo') && lamboSong) {
+          pauseAll(bgm, maybachSong);
+          try { lamboSong.currentTime = 0; lamboSong.volume = 0.6; lamboSong.play().catch(()=>{}); } catch(e){}
+        }
       }
       // spawn fresh sparks on each hover
       mkSparks(w.querySelector('.sparks.sl'), 'l');
