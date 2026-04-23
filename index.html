@@ -166,9 +166,21 @@ a{color:inherit;text-decoration:none}
 .whip .beam.l{right:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:right center}
 .whip .beam.r{left:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:left center}
 .whip .beam{box-shadow:0 0 14px currentColor,0 0 30px currentColor}
-.whip:hover .beam{animation:beamShoot .9s cubic-bezier(.15,.9,.2,1) forwards}
-.whip:hover .beam.l{animation-delay:.05s}
-.whip:hover .beam.r{animation-delay:.08s}
+/* idle auto-firing beams (every few seconds, different per car) */
+.whip.lambo .beam{animation:beamIdle 5s ease-in-out infinite}
+.whip.maybach .beam{animation:beamIdle 5.5s ease-in-out infinite}
+.whip.lambo .beam.r{animation-delay:.1s}
+.whip.maybach .beam.l{animation-delay:2.5s}
+.whip.maybach .beam.r{animation-delay:2.7s}
+@keyframes beamIdle{
+  0%,82%,100%{opacity:0;transform:translateY(-50%) scaleX(0)}
+  84%{opacity:1}
+  94%{opacity:1;transform:translateY(-50%) scaleX(1)}
+  99%{opacity:0;transform:translateY(-50%) scaleX(1.1)}
+}
+.whip:hover .beam{animation:beamShoot .9s cubic-bezier(.15,.9,.2,1) forwards!important}
+.whip:hover .beam.l{animation-delay:.05s!important}
+.whip:hover .beam.r{animation-delay:.08s!important}
 @keyframes beamShoot{
   0%{opacity:0;transform:translateY(-50%) scaleX(0)}
   10%{opacity:1}
