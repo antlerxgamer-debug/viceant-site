@@ -1309,14 +1309,22 @@ body{padding-bottom:84px}
   const centerX = el => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; };
   const fighterBottom = el => { const r = el.getBoundingClientRect(); return innerHeight - r.bottom; };
 
+  // Shake the content wrap, NOT document.body — transforms on <body> break
+  // position:fixed children (including .mground). Anime.js also leaves a residual
+  // transform on the target after completion, which would permanently break fixed.
+  const shakeTarget = document.querySelector('.wrap') || document.body;
   const shake = (strength = 6, dur = 260) => {
     if (!window.anime) return;
     anime({
-      targets: document.body,
+      targets: shakeTarget,
       translateX: [0, strength, -strength, strength*.6, -strength*.6, 0],
       translateY: [0, -strength*.4, strength*.4, -strength*.2, 0],
       duration: dur,
-      easing: 'easeInOutQuad'
+      easing: 'easeInOutQuad',
+      complete: () => {
+        // clear anime's residual transform so fixed descendants stay unbroken
+        shakeTarget.style.transform = '';
+      }
     });
   };
 
