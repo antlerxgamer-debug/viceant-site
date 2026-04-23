@@ -344,6 +344,61 @@ a{color:inherit;text-decoration:none}
 @keyframes goArc{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.8) rotate(var(--ar,0))}6%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(var(--ar,0))}14%{opacity:0}46%{opacity:0}54%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(calc(var(--ar,0) + 10deg))}62%{opacity:0}}
 @keyframes goWordSlam{0%{transform:scale(2.4) rotate(-6deg);opacity:0;filter:blur(14px)}40%{transform:scale(.94) rotate(1deg);opacity:1;filter:blur(0)}55%{transform:scale(1.03) rotate(0)}100%{transform:scale(1) rotate(0);opacity:1;filter:blur(0)}}
 @keyframes goWordJitter{0%,100%{translate:0 0}25%{translate:-2px 1px}50%{translate:2px -1px}75%{translate:-1px -2px}}
+
+/* ============ NEON GOKU — second click overlay ============ */
+.gokuneon{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0;visibility:hidden;overflow:hidden;--cy:#00e5ff;--cy2:#7df9ff;--or:#ff6a00;--or2:#ffb24a;--deep:#051018}
+.gokuneon.on{opacity:1;visibility:visible;pointer-events:auto}
+.gokuneon.out{animation:nxOut .45s ease-in forwards}
+.gokuneon-dim{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,30,50,.85) 0%,rgba(0,0,0,.97) 60%,#000 100%)}
+.gokuneon-stars{position:absolute;inset:0;background:
+  radial-gradient(1px 1px at 20% 30%,#fff,transparent 50%),
+  radial-gradient(1px 1px at 70% 20%,#b2e6ff,transparent 50%),
+  radial-gradient(2px 2px at 40% 80%,#fff,transparent 50%),
+  radial-gradient(1px 1px at 85% 60%,#fff,transparent 50%),
+  radial-gradient(1px 1px at 12% 70%,#7df9ff,transparent 50%),
+  radial-gradient(1px 1px at 55% 45%,#fff,transparent 50%),
+  radial-gradient(2px 2px at 90% 35%,#fff,transparent 50%),
+  radial-gradient(1px 1px at 30% 15%,#fff,transparent 50%);
+  background-size:100% 100%;animation:nxStars 12s linear infinite;opacity:.9}
+.gokuneon-grid{position:absolute;inset:-20%;background:
+  linear-gradient(rgba(0,229,255,.14) 1px,transparent 1px) 0 0/80px 80px,
+  linear-gradient(90deg,rgba(255,106,0,.1) 1px,transparent 1px) 0 0/80px 80px;
+  transform:perspective(800px) rotateX(62deg) translateY(25%);animation:nxGrid 2.4s linear infinite;mix-blend-mode:screen;opacity:.8}
+.gokuneon-rays{position:absolute;left:50%;top:50%;width:180vmax;height:180vmax;transform:translate(-50%,-50%);background:repeating-conic-gradient(from 0deg,rgba(0,229,255,.25) 0deg 3deg,transparent 3deg 9deg,rgba(255,106,0,.2) 9deg 12deg,transparent 12deg 20deg);mix-blend-mode:screen;filter:blur(.6px);animation:nxRays 6s linear infinite;opacity:.8}
+.gokuneon-rays.r2{animation:nxRays 9s linear infinite reverse;filter:blur(2px);opacity:.55}
+.gokuneon-vortex{position:absolute;left:50%;top:50%;width:120vmin;height:120vmin;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,transparent 0deg,rgba(0,229,255,.65) 70deg,transparent 120deg,rgba(255,106,0,.55) 210deg,transparent 260deg,rgba(125,249,255,.5) 330deg,transparent 360deg);filter:blur(42px);mix-blend-mode:screen;animation:nxVortex 3.2s linear infinite}
+.gokuneon-halo{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;pointer-events:none}
+.gokuneon-halo.hcy{width:88vmin;height:110vmin;background:radial-gradient(ellipse at center,rgba(0,229,255,.85) 0%,rgba(0,229,255,.35) 35%,rgba(0,120,180,0) 75%);filter:blur(32px);animation:nxHaloA 1.1s ease-in-out infinite,goFlicker .18s steps(5) infinite}
+.gokuneon-halo.hor{width:72vmin;height:96vmin;background:radial-gradient(ellipse at center,rgba(255,106,0,.8) 0%,rgba(255,178,74,.4) 35%,rgba(180,70,0,0) 75%);filter:blur(26px);animation:nxHaloB .82s ease-in-out infinite}
+.gokuneon-halo.hcore{width:38vmin;height:60vmin;background:radial-gradient(ellipse at center,#fff 0%,rgba(125,249,255,.85) 30%,rgba(0,229,255,.3) 65%,transparent 100%);filter:blur(10px);animation:nxHaloC .46s ease-in-out infinite}
+.gokuneon-bolt{position:absolute;left:50%;top:50%;width:6px;height:64vmin;transform-origin:50% 0;background:linear-gradient(to bottom,#fff,#7df9ff 30%,#00e5ff 60%,transparent);filter:drop-shadow(0 0 10px #00e5ff) drop-shadow(0 0 20px #00e5ff);mix-blend-mode:screen;animation:nxBolt .28s steps(1) infinite;opacity:0}
+.gokuneon-bolt.or{background:linear-gradient(to bottom,#fff,#ffb24a 30%,#ff6a00 60%,transparent);filter:drop-shadow(0 0 10px #ff6a00) drop-shadow(0 0 22px #ff6a00)}
+.gokuneon-ring{position:absolute;left:50%;top:50%;border-radius:50%;border:3px solid var(--cy);box-shadow:0 0 24px var(--cy),inset 0 0 24px var(--cy);transform:translate(-50%,-50%);mix-blend-mode:screen;animation:nxRing 1.4s ease-out infinite;pointer-events:none}
+.gokuneon-ring.r2{border-color:var(--or);box-shadow:0 0 24px var(--or),inset 0 0 24px var(--or);animation-delay:.4s}
+.gokuneon-ring.r3{border-color:#fff;animation-delay:.8s}
+.gokuneon-hero{position:absolute;left:50%;top:50%;height:80vh;width:auto;transform:translate(-50%,-50%) scale(.1);opacity:0;filter:drop-shadow(0 0 14px var(--cy)) drop-shadow(0 0 30px var(--cy)) drop-shadow(0 0 55px var(--or));animation:nxEnter .6s cubic-bezier(.22,1.4,.36,1) .12s forwards,nxBreathe .6s ease-in-out .72s infinite;pointer-events:none;user-select:none;z-index:5}
+.gokuneon-chroma{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:80vh;opacity:0;mix-blend-mode:screen;filter:hue-rotate(0deg) blur(2px);animation:nxChroma 1.2s ease-in-out .12s infinite;pointer-events:none;z-index:4}
+.gokuneon-text{position:absolute;left:50%;top:72%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;font-family:"Orbitron","JetBrains Mono",monospace;font-weight:900;text-transform:uppercase;letter-spacing:.06em;line-height:.95;font-size:clamp(36px,6.5vw,96px);color:#fff;text-shadow:0 0 14px var(--cy),0 0 32px var(--cy),0 0 60px var(--or),2px 3px 0 var(--or);-webkit-text-stroke:1px var(--cy2);z-index:6;white-space:nowrap}
+.gokuneon-text span{display:inline-block;margin-right:.3em;opacity:0}
+.gokuneon-text span.on{animation:nxWordGlitch .36s cubic-bezier(.2,1.3,.3,1) both,nxWordJitter .06s steps(3) infinite .36s}
+.gokuneon-skip{position:absolute;top:22px;right:24px;padding:10px 18px;background:rgba(0,0,0,.6);border:2px solid var(--cy);color:var(--cy);font-family:"JetBrains Mono",monospace;font-weight:800;font-size:12px;letter-spacing:.3em;border-radius:999px;cursor:pointer;z-index:20}
+.gokuneon-skip:hover{background:var(--cy);color:#000;transform:scale(1.06)}
+
+@keyframes nxOut{to{opacity:0;visibility:hidden;transform:scale(1.12);filter:blur(10px)}}
+@keyframes nxStars{0%{transform:translateY(0)}100%{transform:translateY(-40px)}}
+@keyframes nxGrid{to{background-position:0 80px,80px 0}}
+@keyframes nxRays{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes nxVortex{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes nxHaloA{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:.8}50%{transform:translate(-50%,-50%) scale(1.35) rotate(-6deg);opacity:1}}
+@keyframes nxHaloB{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.78}50%{transform:translate(-50%,-50%) scale(1.25);opacity:1}}
+@keyframes nxHaloC{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9}50%{transform:translate(-50%,-50%) scale(1.18);opacity:1}}
+@keyframes nxBolt{0%,90%{opacity:0;transform:translate(-50%,0) rotate(var(--br,0)) scaleY(1)}10%,30%{opacity:1;transform:translate(-50%,0) rotate(var(--br,0)) scaleY(1.15)}50%,80%{opacity:0}}
+@keyframes nxRing{0%{transform:translate(-50%,-50%) scale(.1);opacity:1}100%{transform:translate(-50%,-50%) scale(8);opacity:0}}
+@keyframes nxEnter{0%{transform:translate(-50%,-50%) scale(.1) rotate(-12deg);opacity:0;filter:blur(22px) hue-rotate(180deg) brightness(3)}55%{transform:translate(-50%,-50%) scale(1.15) rotate(3deg);opacity:1;filter:blur(2px) hue-rotate(0) brightness(1.5)}100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;filter:drop-shadow(0 0 14px var(--cy)) drop-shadow(0 0 30px var(--cy)) drop-shadow(0 0 55px var(--or))}}
+@keyframes nxBreathe{0%,100%{transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 0 14px var(--cy)) drop-shadow(0 0 30px var(--cy)) drop-shadow(0 0 55px var(--or)) brightness(1.1)}50%{transform:translate(-50%,-50%) scale(1.035);filter:drop-shadow(0 0 22px var(--cy)) drop-shadow(0 0 45px var(--cy)) drop-shadow(0 0 85px var(--or)) brightness(1.6) saturate(1.7)}}
+@keyframes nxChroma{0%,100%{opacity:0;transform:translate(calc(-50% + 0px),-50%);filter:hue-rotate(0) blur(2px)}25%{opacity:.7;transform:translate(calc(-50% - 14px),-50%);filter:hue-rotate(-40deg) blur(3px)}50%{opacity:.55;transform:translate(calc(-50% + 12px),-50%);filter:hue-rotate(40deg) blur(4px)}75%{opacity:.65;transform:translate(calc(-50% - 8px),-50%);filter:hue-rotate(-20deg) blur(2.5px)}}
+@keyframes nxWordGlitch{0%{transform:scale(3) skewX(25deg);opacity:0;filter:blur(16px) hue-rotate(180deg)}40%{transform:scale(.92) skewX(-6deg);opacity:1;filter:blur(0) hue-rotate(0)}60%{transform:scale(1.05) skewX(2deg)}100%{transform:scale(1) skewX(0);opacity:1;filter:blur(0)}}
+@keyframes nxWordJitter{0%,100%{translate:0 0}33%{translate:-2px 1px}66%{translate:2px -1px}}
 @keyframes xfmOut{to{opacity:0;transform:scale(1.04)}}
 </style>
 <!-- third-party animation libs -->
@@ -498,6 +553,35 @@ a{color:inherit;text-decoration:none}
     <span>GET</span> <span>THAT</span> <span>FUCKIN</span> <span>MONEY</span> <span>BOY!</span>
   </div>
   <button class="gokuxfm-skip" id="gokuxfmSkip" type="button">SKIP ▸</button>
+</div>
+
+<!-- NEON GOKU OVERLAY (second click) -->
+<div id="gokuNeon" class="gokuneon" aria-hidden="true">
+  <div class="gokuneon-dim"></div>
+  <div class="gokuneon-stars"></div>
+  <div class="gokuneon-grid"></div>
+  <div class="gokuneon-rays"></div>
+  <div class="gokuneon-rays r2"></div>
+  <div class="gokuneon-vortex"></div>
+  <div class="gokuneon-halo hcy"></div>
+  <div class="gokuneon-halo hor"></div>
+  <div class="gokuneon-halo hcore"></div>
+  <div class="gokuneon-bolt" style="--br:12deg;animation-delay:.04s"></div>
+  <div class="gokuneon-bolt or" style="--br:-42deg;animation-delay:.11s"></div>
+  <div class="gokuneon-bolt" style="--br:82deg;animation-delay:.18s"></div>
+  <div class="gokuneon-bolt or" style="--br:-120deg;animation-delay:.25s"></div>
+  <div class="gokuneon-bolt" style="--br:155deg;animation-delay:.09s"></div>
+  <div class="gokuneon-bolt or" style="--br:-170deg;animation-delay:.16s"></div>
+  <div class="gokuneon-ring"></div>
+  <div class="gokuneon-ring r2"></div>
+  <div class="gokuneon-ring r3"></div>
+  <img class="gokuneon-chroma" src="assets/goku-neon.png" alt="" aria-hidden="true" draggable="false"/>
+  <img class="gokuneon-chroma" src="assets/goku-neon.png" alt="" aria-hidden="true" draggable="false" style="animation-delay:.2s;filter:hue-rotate(140deg) blur(3px)"/>
+  <img class="gokuneon-hero magictime" id="gokuNeonHero" src="assets/goku-neon.png" alt="" draggable="false"/>
+  <div class="gokuneon-text" id="gokuNeonText">
+    <span>LEVEL</span> <span>UP.</span> <span>KEEP</span> <span>GRINDING.</span>
+  </div>
+  <button class="gokuneon-skip" id="gokuNeonSkip" type="button">SKIP ▸</button>
 </div>
 
 <script>
@@ -762,54 +846,90 @@ a{color:inherit;text-decoration:none}
   };
   xfmSkip.addEventListener('click', e => { e.stopPropagation(); closeXfm(); });
   xfm.addEventListener('click', e => { if (e.target === xfm) closeXfm(); });
-  hero.addEventListener('click', () => {
-    // keep original: shake + flash + scream
-    flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
-    if (on) { scream.currentTime = 0; scream.play().catch(()=>{}); }
-    document.body.animate(
-      [{transform:'translate(0,0)'},{transform:'translate(4px,-2px)'},{transform:'translate(-3px,2px)'},{transform:'translate(2px,1px)'},{transform:'translate(0,0)'}],
-      {duration:350, easing:'ease-out'}
-    );
-    // launch transformation
+  const launchXfm = () => {
     if (xfmBusy) return; xfmBusy = true;
     clearXfmTimers();
     xfmWords.forEach(w => w.classList.remove('on'));
     xfm.classList.remove('out'); void xfm.offsetWidth;
     xfm.classList.add('on');
     initNebula();
-    // magic.css dramatic entrance on hero
     if (xfmHero) {
       xfmHero.className = 'gokuxfm-hero magictime';
       void xfmHero.offsetWidth;
       xfmHero.classList.add('puffIn');
     }
     if (on) { try { yell.currentTime = 0; yell.volume = 1; yell.play().catch(()=>{}); } catch(e){} }
-    // word-by-word slam via anime.js + magic.css classes
     if (window.anime) {
       xfmAnime = anime.timeline({ easing: 'easeOutExpo' });
       const magicVariants = ['tinDownIn', 'boingInUp', 'puffIn', 'magic', 'boingInUp'];
       xfmWords.forEach((w, i) => {
         xfmAnime.add({
           targets: w,
-          opacity: [0, 1],
-          translateY: [-80, 0],
-          scale: [2.4, 1],
-          rotate: [-8, 0],
+          opacity: [0, 1], translateY: [-80, 0], scale: [2.4, 1], rotate: [-8, 0],
           duration: 520,
-          begin: () => {
-            w.className = 'magictime ' + (magicVariants[i] || 'magic');
-            w.classList.add('on');
-          },
+          begin: () => { w.className = 'magictime ' + (magicVariants[i] || 'magic'); w.classList.add('on'); },
         }, i === 0 ? 380 : '-=360');
       });
     } else {
-      // fallback if anime.js hasn't loaded
       const beats = [420, 760, 1080, 1480, 1980];
-      xfmWords.forEach((w, i) => {
-        xfmTimers.push(setTimeout(() => w.classList.add('on'), beats[i] || 2000));
-      });
+      xfmWords.forEach((w, i) => { xfmTimers.push(setTimeout(() => w.classList.add('on'), beats[i] || 2000)); });
     }
     xfmTimers.push(setTimeout(() => { if (xfm.classList.contains('on')) closeXfm(); }, 4600));
+  };
+
+  // NEON overlay (second click)
+  const neon = document.getElementById('gokuNeon');
+  const neonSkip = document.getElementById('gokuNeonSkip');
+  const neonText = document.getElementById('gokuNeonText');
+  const neonWords = neonText ? neonText.querySelectorAll('span') : [];
+  let neonBusy = false, neonTimers = [], neonAnime = null;
+  const clearNeonTimers = () => { neonTimers.forEach(t => clearTimeout(t)); neonTimers = []; };
+  const closeNeon = () => {
+    neon.classList.remove('on'); neon.classList.add('out');
+    clearNeonTimers();
+    if (neonAnime && neonAnime.pause) neonAnime.pause();
+    neonWords.forEach(w => { w.classList.remove('on'); w.className = ''; });
+    try { yell.pause(); yell.currentTime = 0; } catch(e){}
+    setTimeout(() => { neon.classList.remove('out'); neonBusy = false; }, 520);
+  };
+  neonSkip.addEventListener('click', e => { e.stopPropagation(); closeNeon(); });
+  neon.addEventListener('click', e => { if (e.target === neon) closeNeon(); });
+  const launchNeon = () => {
+    if (neonBusy) return; neonBusy = true;
+    clearNeonTimers();
+    neonWords.forEach(w => w.classList.remove('on'));
+    neon.classList.remove('out'); void neon.offsetWidth;
+    neon.classList.add('on');
+    if (on) { try { yell.currentTime = 0; yell.volume = 1; yell.play().catch(()=>{}); } catch(e){} }
+    if (window.anime) {
+      neonAnime = anime.timeline({ easing: 'easeOutExpo' });
+      neonWords.forEach((w, i) => {
+        neonAnime.add({
+          targets: w,
+          opacity: [0, 1], translateX: [i % 2 ? 120 : -120, 0], scale: [3, 1],
+          skewX: [i % 2 ? 25 : -25, 0], rotate: [i % 2 ? 10 : -10, 0],
+          duration: 480,
+          begin: () => { w.className = 'magictime ' + (['tinDownIn','boingInUp','puffIn','magic'][i] || 'magic'); w.classList.add('on'); },
+        }, i === 0 ? 420 : '-=320');
+      });
+    } else {
+      const beats = [420, 740, 1080, 1420];
+      neonWords.forEach((w, i) => { neonTimers.push(setTimeout(() => w.classList.add('on'), beats[i] || 1800)); });
+    }
+    neonTimers.push(setTimeout(() => { if (neon.classList.contains('on')) closeNeon(); }, 4400));
+  };
+
+  // click counter — odd clicks fire the orange transformation, even clicks fire neon
+  let heroClicks = 0;
+  hero.addEventListener('click', () => {
+    flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
+    if (on) { scream.currentTime = 0; scream.play().catch(()=>{}); }
+    document.body.animate(
+      [{transform:'translate(0,0)'},{transform:'translate(4px,-2px)'},{transform:'translate(-3px,2px)'},{transform:'translate(2px,1px)'},{transform:'translate(0,0)'}],
+      {duration:350, easing:'ease-out'}
+    );
+    heroClicks++;
+    if (heroClicks % 2 === 1) launchXfm(); else launchNeon();
   });
 
   // card clicks: scream sfx + flash
