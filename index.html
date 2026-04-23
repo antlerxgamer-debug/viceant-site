@@ -42,6 +42,60 @@ a{color:inherit;text-decoration:none}
 .bolt.b{background:linear-gradient(180deg,transparent,#7fe7ff,#fff,transparent);filter:blur(.4px) drop-shadow(0 0 8px #7fe7ff)}
 @keyframes strike{0%{opacity:0}4%{opacity:1}8%{opacity:0}100%{opacity:0}}
 
+/* ========== ENTER GATE (Street Fighter intro) ========== */
+.enter-gate{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at center,#140000 0%,#000 70%);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-tap-highlight-color:transparent}
+.enter-gate.out{pointer-events:none;animation:egExit .8s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes egExit{0%{opacity:1;transform:scale(1)}40%{opacity:1;transform:scale(1.02);filter:brightness(3)}100%{opacity:0;transform:scale(1.15);filter:brightness(6)}}
+.eg-scanlines{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.04) 0 2px,transparent 2px 4px);mix-blend-mode:overlay;pointer-events:none;animation:egScan 6s linear infinite}
+@keyframes egScan{to{background-position:0 40px}}
+.eg-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.9) 100%);pointer-events:none}
+.eg-sparks{position:absolute;inset:0;pointer-events:none}
+.eg-sparks span{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffcb2e;box-shadow:0 0 12px #ffcb2e,0 0 24px #ff6a00;animation:egSpark 3.5s ease-out infinite}
+.eg-sparks span:nth-child(1){left:5%;top:85%;animation-delay:0s}
+.eg-sparks span:nth-child(2){left:92%;top:78%;animation-delay:.3s}
+.eg-sparks span:nth-child(3){left:15%;top:72%;animation-delay:.6s}
+.eg-sparks span:nth-child(4){left:78%;top:88%;animation-delay:.9s}
+.eg-sparks span:nth-child(5){left:35%;top:92%;animation-delay:1.2s}
+.eg-sparks span:nth-child(6){left:62%;top:68%;animation-delay:1.5s}
+.eg-sparks span:nth-child(7){left:25%;top:60%;animation-delay:1.8s}
+.eg-sparks span:nth-child(8){left:85%;top:55%;animation-delay:2.1s}
+.eg-sparks span:nth-child(9){left:48%;top:80%;animation-delay:2.4s}
+.eg-sparks span:nth-child(10){left:10%;top:50%;animation-delay:2.7s}
+.eg-sparks span:nth-child(11){left:95%;top:45%;animation-delay:3s}
+.eg-sparks span:nth-child(12){left:55%;top:35%;animation-delay:.2s}
+.eg-sparks span:nth-child(13){left:20%;top:30%;animation-delay:.5s}
+.eg-sparks span:nth-child(14){left:75%;top:25%;animation-delay:.8s}
+.eg-sparks span:nth-child(15){left:40%;top:15%;animation-delay:1.1s}
+@keyframes egSpark{0%{transform:translateY(0) scale(0);opacity:0}15%{transform:translateY(-40px) scale(1.4);opacity:1}100%{transform:translateY(-260px) scale(0);opacity:0}}
+.eg-core{position:relative;text-align:center;z-index:2}
+.eg-sub{font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.5em;color:#ffcb2e;font-size:14px;text-shadow:0 0 10px #ffcb2e,0 0 20px #ff6a00;animation:egSubPulse 1.6s ease-in-out infinite;font-weight:700}
+.eg-sub-top{margin-bottom:24px}
+.eg-sub-bot{margin-top:28px;color:#ff3b3b;text-shadow:0 0 12px #ff3b3b,0 0 24px #a00,0 0 40px #500;letter-spacing:.4em;font-size:16px;animation:egFight 1.2s ease-in-out infinite}
+@keyframes egSubPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes egFight{0%,100%{transform:scale(1) skewX(-4deg);filter:brightness(1)}50%{transform:scale(1.08) skewX(-4deg);filter:brightness(1.6) hue-rotate(10deg)}}
+.eg-title{position:relative;font-family:"Press Start 2P","Arial Black",Impact,sans-serif;font-size:clamp(56px,12vw,180px);font-weight:900;letter-spacing:.04em;line-height:1;color:transparent;-webkit-text-stroke:3px #fff;animation:egTitleIn 1.2s cubic-bezier(.2,1.5,.3,1) both,egTitleIdle 4s ease-in-out 1.2s infinite}
+.eg-title .eg-glow{position:absolute;inset:0;color:transparent;-webkit-text-stroke:3px #ffcb2e;text-shadow:0 0 30px #ff6a00,0 0 60px #ff2d00,0 0 90px #ff2d00;background:linear-gradient(180deg,#fff 0%,#ffcb2e 40%,#ff6a00 70%,#ff2d00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 0 #8b0000) drop-shadow(0 0 20px #ff6a00)}
+.eg-title .eg-glow:first-child{position:static}
+.eg-title .eg-glow-2{transform:translate(-3px,-3px);mix-blend-mode:screen;opacity:.6;animation:egGlitch1 .25s steps(2) infinite}
+.eg-title .eg-glow-3{transform:translate(3px,3px);mix-blend-mode:screen;opacity:.6;color:#0ff;-webkit-text-stroke-color:#0ff;animation:egGlitch2 .35s steps(2) infinite}
+@keyframes egTitleIn{0%{opacity:0;transform:scale(3) rotate(-6deg);filter:blur(20px) brightness(5)}60%{opacity:1;transform:scale(.9) rotate(2deg);filter:blur(0) brightness(2)}100%{opacity:1;transform:scale(1) rotate(0);filter:blur(0) brightness(1)}}
+@keyframes egTitleIdle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.03) rotate(-.5deg)}}
+@keyframes egGlitch1{0%,90%,100%{transform:translate(-3px,-3px)}50%{transform:translate(-8px,2px)}}
+@keyframes egGlitch2{0%,90%,100%{transform:translate(3px,3px)}50%{transform:translate(8px,-2px)}}
+.eg-tag{margin-top:16px;font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.6em;color:#fff;text-shadow:0 0 14px #fff,0 0 28px #7df9ff;animation:egTagIn .8s ease .6s both,egTagPulse 2s ease-in-out .8s infinite}
+@keyframes egTagIn{from{opacity:0;letter-spacing:2em;filter:blur(8px)}to{opacity:1;letter-spacing:.6em;filter:blur(0)}}
+@keyframes egTagPulse{0%,100%{text-shadow:0 0 14px #fff,0 0 28px #7df9ff}50%{text-shadow:0 0 20px #fff,0 0 40px #b14bff,0 0 60px #ff2bc9}}
+.eg-press{margin-top:42px;position:relative;display:inline-block;padding:14px 38px;border:2px solid #ffcb2e;background:linear-gradient(90deg,rgba(255,106,0,.15),rgba(255,203,46,.25),rgba(255,106,0,.15));box-shadow:0 0 32px rgba(255,106,0,.6),inset 0 0 20px rgba(255,203,46,.3);animation:egPressIn 1s ease 1s both,egPressPulse 1s ease-in-out 2s infinite}
+.eg-press::before,.eg-press::after{content:"";position:absolute;top:50%;width:26px;height:2px;background:#ffcb2e;box-shadow:0 0 10px #ffcb2e}
+.eg-press::before{left:-38px;animation:egArrowL 1s ease-in-out infinite}
+.eg-press::after{right:-38px;animation:egArrowR 1s ease-in-out infinite}
+@keyframes egArrowL{0%,100%{transform:translate(0,-50%)}50%{transform:translate(10px,-50%)}}
+@keyframes egArrowR{0%,100%{transform:translate(0,-50%)}50%{transform:translate(-10px,-50%)}}
+.eg-press-text{font-family:"Press Start 2P","Arial Black",Impact,sans-serif;font-size:18px;letter-spacing:.35em;font-weight:900;color:#fff;text-shadow:0 0 12px #ffcb2e,0 0 24px #ff6a00,0 2px 0 #8b0000}
+@keyframes egPressIn{from{opacity:0;transform:translateY(40px) scale(.6)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes egPressPulse{0%,100%{transform:scale(1);box-shadow:0 0 32px rgba(255,106,0,.6),inset 0 0 20px rgba(255,203,46,.3)}50%{transform:scale(1.06);box-shadow:0 0 60px rgba(255,106,0,1),inset 0 0 30px rgba(255,203,46,.6)}}
+.enter-gate:hover .eg-press{transform:scale(1.08);background:linear-gradient(90deg,rgba(255,106,0,.35),rgba(255,203,46,.55),rgba(255,106,0,.35))}
+
 /* ========== HUD ========== */
 .hud{position:fixed;top:16px;left:0;right:0;z-index:10;display:flex;justify-content:space-between;padding:0 20px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#ffcb2e;text-shadow:0 0 8px rgba(255,203,46,.6);pointer-events:none}
 .hud .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff2d2d;box-shadow:0 0 10px #ff2d2d;margin-right:6px;animation:blink 1s infinite}
@@ -512,6 +566,30 @@ body{padding-bottom:84px}
 </head>
 <body>
 
+<!-- ============ ENTER GATE (Street Fighter style) ============ -->
+<div id="enterGate" class="enter-gate" role="button" tabindex="0" aria-label="Click to enter">
+  <div class="eg-scanlines"></div>
+  <div class="eg-vignette"></div>
+  <div class="eg-sparks">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="eg-core">
+    <div class="eg-sub eg-sub-top">◤ INSERT COIN ◥</div>
+    <div class="eg-title">
+      <span class="eg-glow">VICEANT</span>
+      <span class="eg-glow eg-glow-2" aria-hidden="true">VICEANT</span>
+      <span class="eg-glow eg-glow-3" aria-hidden="true">VICEANT</span>
+    </div>
+    <div class="eg-tag">✦ ULTRA INSTINCT ✦</div>
+    <div class="eg-press">
+      <span class="eg-press-text">CLICK TO ENTER</span>
+    </div>
+    <div class="eg-sub eg-sub-bot">ROUND 1 · FIGHT!</div>
+  </div>
+</div>
+
 <!-- animated WebGL-ish canvas (2D plasma, lightweight) -->
 <canvas id="bgcanvas"></canvas>
 
@@ -709,8 +787,6 @@ body{padding-bottom:84px}
   <div class="mground-coin c3"></div>
   <div class="mground-particles"></div>
   <!-- pixel fighters -->
-  <div class="fighter g1" id="f1"><div class="aura-f"></div><div class="charge-orb"></div><img src="assets/px-ssj.png" alt=""/></div>
-  <div class="fighter g2" id="f2"><div class="aura-f"></div><div class="charge-orb"></div><img src="assets/px-goku.png" alt=""/></div>
   <div class="fighter g3" id="f3"><div class="aura-f"></div><div class="charge-orb"></div><img src="assets/px-ssb.png" alt=""/></div>
   <div class="fighter g4" id="f4"><div class="aura-f"></div><div class="charge-orb"></div><img src="assets/px-goku.png" alt=""/></div>
 </div>
@@ -873,32 +949,29 @@ body{padding-bottom:84px}
     });
   };
 
-  // ---- Autoplay strategy ----
-  // 1. Try unmuted play first (works if site has autoplay permission)
-  // 2. If blocked, start muted-autoplay (always allowed) + wait for first gesture
-  // 3. On ANY user gesture (or SOUND button click), unmute + play
+  // ---- Enter gate controls audio start ----
+  // Everything muted until user clicks the gate. Click = guaranteed gesture = unmute + play BGM.
   ultra.loop = true;
-  window.__muted = false;
-  btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+  window.__muted = true;
+  muteAll();
+  btn.innerHTML = '🔊 SOUND: OFF'; btn.style.color = '#ffcb2e';
 
-  const evs = ['click','touchstart','touchend','keydown','scroll','wheel','mousemove','mousedown','pointerdown'];
-  const kickAudio = () => {
+  const gate = document.getElementById('enterGate');
+  const enterSite = () => {
+    if (!gate || gate.classList.contains('out')) return;
+    window.__muted = false;
+    on = true;
     try { ultra.muted = false; } catch(e){}
     unmuteAll();
     ultra.play().catch(()=>{});
-    evs.forEach(ev => window.removeEventListener(ev, kickAudio, true));
+    btn.innerHTML = '🔊 SOUND: ON'; btn.style.color = '#fff';
+    gate.classList.add('out');
+    setTimeout(() => { if (gate && gate.parentNode) gate.parentNode.removeChild(gate); }, 820);
   };
-
-  // try unmuted first
-  ultra.muted = false;
-  const p = ultra.play();
-  if (p && p.catch) {
-    p.catch(() => {
-      // blocked — fall back to muted autoplay + gesture unmute
-      ultra.muted = true;
-      ultra.play().catch(()=>{});
-      evs.forEach(ev => window.addEventListener(ev, kickAudio, {capture:true}));
-    });
+  if (gate) {
+    gate.addEventListener('click', enterSite);
+    gate.addEventListener('touchstart', enterSite, {passive:true});
+    gate.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') enterSite(); });
   }
 
   btn.addEventListener('click', () => {
@@ -1601,12 +1674,9 @@ body{padding-bottom:84px}
   };
 
   const start = () => {
-    const f1 = document.getElementById('f1');
-    const f2 = document.getElementById('f2');
     const f3 = document.getElementById('f3');
     const f4 = document.getElementById('f4');
-    if (!f1 || !f2) return;
-    pair(f1, f2, '#ffd84a', '#ffb24a');
+    if (!f3 || !f4) return;
     pair(f3, f4, '#7df9ff', '#ff5ada');
   };
   if (document.readyState === 'complete') start();
