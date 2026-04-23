@@ -194,29 +194,42 @@ a{color:inherit;text-decoration:none}
 .whip:hover .flare{animation:flareUp .7s ease-out}
 @keyframes flareUp{0%{opacity:0;transform:scale(.5)}40%{opacity:1}100%{opacity:0;transform:scale(1.8)}}
 
-/* energy beams shooting from both sides of the car (purple ki beam w/ white hot core) */
-.whip .beam{position:absolute;top:50%;height:12px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;border-radius:20px;will-change:transform,opacity}
-.whip .beam.l{right:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.0) 4%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:right center}
-.whip .beam.r{left:70%;width:55vw;background:linear-gradient(90deg,transparent 0%,rgba(180,95,255,.85) 18%,#f3e6ff 45%,#ffffff 52%,#f3e6ff 60%,rgba(180,95,255,.85) 82%,transparent 100%);transform-origin:left center}
-/* lambo = orange beams */
-.whip.lambo .beam.l{background:linear-gradient(90deg,transparent 0%,rgba(255,106,0,.0) 4%,rgba(255,138,26,.95) 18%,#ffcb2e 42%,#ffffff 52%,#ffcb2e 62%,rgba(255,138,26,.95) 82%,transparent 100%)}
-.whip.lambo .beam.r{background:linear-gradient(90deg,transparent 0%,rgba(255,138,26,.95) 18%,#ffcb2e 42%,#ffffff 52%,#ffcb2e 62%,rgba(255,138,26,.95) 82%,transparent 100%)}
-/* maybach = white beams */
-.whip.maybach .beam.l{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.0) 4%,rgba(220,235,255,.9) 18%,#ffffff 45%,#ffffff 55%,rgba(220,235,255,.9) 82%,transparent 100%)}
-.whip.maybach .beam.r{background:linear-gradient(90deg,transparent 0%,rgba(220,235,255,.9) 18%,#ffffff 45%,#ffffff 55%,rgba(220,235,255,.9) 82%,transparent 100%)}
-.whip:hover .beam{animation:beamShoot 1s cubic-bezier(.15,.9,.2,1) forwards}
+/* energy beams — kamehameha-style pulsing aura (aura + plasma body + hot core) */
+.whip .beam{position:absolute;top:50%;height:180px;transform:translateY(-50%) scaleX(0);opacity:0;pointer-events:none;will-change:transform,opacity;background:none}
+.whip .beam.l{right:70%;width:55vw;transform-origin:right center}
+.whip .beam.r{left:70%;width:55vw;transform-origin:left center}
+.whip .beam::before,.whip .beam::after{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
+/* LAMBO — orange aura + golden body */
+.whip.lambo .beam::before{height:160px;background:radial-gradient(ellipse 60% 100% at 50% 50%,rgba(255,138,26,.55) 0%,rgba(255,170,30,.3) 28%,rgba(255,106,0,.15) 52%,rgba(255,45,45,.05) 75%,transparent 90%)}
+.whip.lambo .beam::after{height:22px;background:radial-gradient(ellipse 60% 100% at 50% 50%,#ffffff 0%,#fff2b0 8%,#ffd84a 22%,rgba(255,170,30,.85) 45%,rgba(255,106,0,.4) 70%,transparent 92%)}
+/* MAYBACH — icy white aura */
+.whip.maybach .beam::before{height:160px;background:radial-gradient(ellipse 60% 100% at 50% 50%,rgba(255,255,255,.55) 0%,rgba(220,235,255,.3) 28%,rgba(180,210,255,.12) 52%,rgba(255,255,255,.05) 75%,transparent 90%)}
+.whip.maybach .beam::after{height:22px;background:radial-gradient(ellipse 60% 100% at 50% 50%,#ffffff 0%,#ffffff 10%,#eaf4ff 25%,rgba(220,235,255,.85) 50%,rgba(200,225,255,.3) 75%,transparent 92%)}
+.whip:hover .beam{animation:beamShoot 1.3s cubic-bezier(.12,.9,.2,1) forwards}
 .whip:hover .beam.l{animation-delay:.05s}
 .whip:hover .beam.r{animation-delay:.08s}
+.whip:hover .beam::before{animation:carBeamPulse .42s ease-in-out infinite}
+.whip:hover .beam::after{animation:carBeamFlick .18s steps(4,end) infinite}
 @keyframes beamShoot{
   0%{opacity:0;transform:translateY(-50%) scaleX(0)}
-  10%{opacity:1}
-  55%{opacity:1;transform:translateY(-50%) scaleX(1)}
-  85%{opacity:.9}
-  100%{opacity:0;transform:translateY(-50%) scaleX(1.12)}
+  6%{opacity:1;transform:translateY(-50%) scaleX(.12)}
+  30%{opacity:1;transform:translateY(-50%) scaleX(1)}
+  70%{opacity:1;transform:translateY(-50%) scaleX(1.03)}
+  100%{opacity:0;transform:translateY(-50%) scaleX(1.08)}
+}
+@keyframes carBeamPulse{
+  0%,100%{transform:translateY(-50%) scaleY(.85);opacity:.75}
+  50%{transform:translateY(-50%) scaleY(1.2);opacity:1}
+}
+@keyframes carBeamFlick{
+  0%,100%{opacity:.92;transform:translateY(-50%) scaleY(1)}
+  50%{opacity:1;transform:translateY(-50%) scaleY(1.1)}
 }
 
 /* endpoint impact burst (where beam hits the viewport edge) */
-.whip .impact{position:absolute;top:50%;width:160px;height:160px;transform:translate(-50%,-50%) scale(0);border-radius:50%;background:radial-gradient(circle,#fff 0%,#e6c9ff 20%,#b45bff 45%,rgba(140,50,220,.4) 60%,transparent 75%);pointer-events:none;opacity:0}
+.whip .impact{position:absolute;top:50%;width:180px;height:180px;transform:translate(-50%,-50%) scale(0);border-radius:50%;pointer-events:none;opacity:0}
+.whip.lambo .impact{background:radial-gradient(circle,#fff 0%,#fff2b0 20%,#ffcb2e 40%,rgba(255,106,0,.5) 60%,transparent 78%)}
+.whip.maybach .impact{background:radial-gradient(circle,#fff 0%,#fff 25%,#eaf4ff 50%,rgba(200,225,255,.4) 68%,transparent 82%)}
 .whip .impact.l{left:0}
 .whip .impact.r{right:0;transform:translate(50%,-50%) scale(0)}
 .whip:hover .impact{animation:impactBurst .9s ease-out forwards}
