@@ -132,32 +132,37 @@ a{color:inherit;text-decoration:none}
 .foot{margin-top:60px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#555}
 .foot .lvl{color:#ffcb2e}
 
-/* tab hover beam — real aggressive energy beam across full screen */
-.tabbeam{position:fixed;left:0;right:0;height:60px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;z-index:3;overflow:visible}
+/* tab hover beam — kamehameha-style pulsing aura across full screen */
+.tabbeam{position:fixed;left:0;right:0;height:200px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;z-index:3;overflow:visible}
 .tabbeam::before,.tabbeam::after,.tabbeam>span{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
-/* outer orange halo — soft falloff */
-.tabbeam::before{height:50px;background:radial-gradient(ellipse 50% 100% at 50% 50%,rgba(255,106,0,.55) 0%,rgba(255,106,0,.25) 35%,rgba(255,45,45,.08) 65%,transparent 85%)}
-/* mid yellow body */
-.tabbeam::after{height:14px;background:linear-gradient(90deg,transparent 0%,rgba(255,203,46,.0) 6%,rgba(255,170,30,.95) 18%,#ffd84a 38%,#fff2b0 48%,#ffffff 50%,#fff2b0 52%,#ffd84a 62%,rgba(255,170,30,.95) 82%,transparent 100%);filter:none}
+/* outer huge aura — soft radial falloff, wide spread, pulses */
+.tabbeam::before{height:180px;background:radial-gradient(ellipse 60% 100% at 50% 50%,rgba(255,106,0,.55) 0%,rgba(255,138,26,.35) 25%,rgba(255,106,0,.18) 45%,rgba(255,45,45,.08) 65%,transparent 85%);will-change:transform,opacity}
+/* mid body — yellow plasma shaft */
+.tabbeam::after{height:26px;background:radial-gradient(ellipse 55% 100% at 50% 50%,#ffffff 0%,#fff2b0 8%,#ffd84a 22%,rgba(255,170,30,.9) 45%,rgba(255,106,0,.55) 70%,transparent 92%)}
 /* hot white core — razor thin */
-.tabbeam>span{height:3px;background:linear-gradient(90deg,transparent 0%,#fff 15%,#fff 85%,transparent 100%);box-shadow:0 0 1px #fff}
-.tabbeam.fire{animation:tabBeam 1s cubic-bezier(.1,.95,.25,1) forwards}
-.tabbeam.fire::before{animation:tabBeamFlick 1s steps(12,end) forwards}
+.tabbeam>span{height:3px;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.6) 10%,#fff 30%,#fff 70%,rgba(255,255,255,.6) 90%,transparent 100%);filter:brightness(1.4)}
+.tabbeam.fire{animation:tabBeam 1.3s cubic-bezier(.12,.9,.2,1) forwards}
+.tabbeam.fire::before{animation:tabBeamPulse .42s ease-in-out infinite,tabBeamFade 1.3s ease-out forwards}
+.tabbeam.fire::after{animation:tabBeamFlick .18s steps(4,end) infinite,tabBeamFade 1.3s ease-out forwards}
+.tabbeam.fire>span{animation:tabBeamFade 1.3s ease-out forwards}
 @keyframes tabBeam{
   0%{opacity:0;transform:translateY(-50%) scaleX(0)}
-  8%{opacity:1;transform:translateY(-50%) scaleX(.15)}
-  55%{opacity:1;transform:translateY(-50%) scaleX(1)}
-  70%{opacity:1;transform:translateY(-50%) scaleX(1.02)}
+  6%{opacity:1;transform:translateY(-50%) scaleX(.12)}
+  30%{opacity:1;transform:translateY(-50%) scaleX(1)}
+  70%{opacity:1;transform:translateY(-50%) scaleX(1.03)}
   100%{opacity:0;transform:translateY(-50%) scaleX(1.08)}
 }
+@keyframes tabBeamPulse{
+  0%,100%{transform:translateY(-50%) scaleY(.85);opacity:.75}
+  50%{transform:translateY(-50%) scaleY(1.2);opacity:1}
+}
 @keyframes tabBeamFlick{
-  0%,100%{opacity:.9}
-  10%{opacity:1}
-  22%{opacity:.7}
-  34%{opacity:1}
-  46%{opacity:.85}
-  58%{opacity:1}
-  72%{opacity:.75}
+  0%,100%{opacity:.92;transform:translateY(-50%) scaleY(1)}
+  50%{opacity:1;transform:translateY(-50%) scaleY(1.1)}
+}
+@keyframes tabBeamFade{
+  0%,70%{}
+  100%{opacity:0}
 }
 
 /* power-up overlay on tap */
@@ -643,7 +648,7 @@ a{color:inherit;text-decoration:none}
     card.addEventListener('pointerenter', () => {
       if (!armed) return; armed = false;
       const r = card.getBoundingClientRect();
-      beam.style.top = (r.top + r.height/2) + 'px';
+      beam.style.top = (r.bottom + 6) + 'px';
       beam.classList.remove('fire');
       void beam.offsetWidth;
       beam.classList.add('fire');
