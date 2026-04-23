@@ -71,10 +71,26 @@ a{color:inherit;text-decoration:none}
 .name{font-family:"Inter",sans-serif;font-weight:900;font-size:clamp(64px,16vw,132px);letter-spacing:-.045em;line-height:.88;text-align:center;position:relative;background:linear-gradient(180deg,#fff 0%,#ffe27a 35%,#ffcb2e 55%,#ff6a00 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 28px rgba(255,203,46,.65));text-transform:uppercase}
 .name .glitch{position:relative;display:inline-block}
 .name .glitch::before,.name .glitch::after{content:attr(data-t);position:absolute;inset:0;background:linear-gradient(180deg,#fff,#ffcb2e,#ff6a00);-webkit-background-clip:text;background-clip:text;color:transparent;mix-blend-mode:screen;pointer-events:none}
-.name .glitch::before{animation:gl1 5.5s infinite steps(1);text-shadow:2px 0 #7fe7ff}
-.name .glitch::after{animation:gl2 6s infinite steps(1);text-shadow:-2px 0 #ff2d2d}
-@keyframes gl1{0%,92%,100%{clip-path:inset(100% 0 0 0)}93%{clip-path:inset(10% 0 60% 0);transform:translate(-3px,-1px)}95%{clip-path:inset(60% 0 20% 0);transform:translate(2px,1px)}97%{clip-path:inset(30% 0 40% 0);transform:translate(-1px,0)}}
-@keyframes gl2{0%,91%,100%{clip-path:inset(100% 0 0 0)}92%{clip-path:inset(40% 0 30% 0);transform:translate(3px,1px)}94%{clip-path:inset(70% 0 10% 0);transform:translate(-2px,-1px)}96%{clip-path:inset(20% 0 50% 0);transform:translate(1px,0)}}
+.name .glitch::before{animation:gl1 9s infinite steps(1);text-shadow:3px 0 #7fe7ff}
+.name .glitch::after{animation:gl2 9.5s infinite steps(1);text-shadow:-3px 0 #ff2d2d}
+@keyframes gl1{
+  0%,78%,100%{clip-path:inset(100% 0 0 0)}
+  80%{clip-path:inset(10% 0 60% 0);transform:translate(-4px,-2px)}
+  83%{clip-path:inset(55% 0 20% 0);transform:translate(3px,1px)}
+  86%{clip-path:inset(25% 0 40% 0);transform:translate(-2px,0)}
+  89%{clip-path:inset(70% 0 10% 0);transform:translate(4px,2px)}
+  92%{clip-path:inset(15% 0 50% 0);transform:translate(-3px,-1px)}
+  95%{clip-path:inset(40% 0 35% 0);transform:translate(2px,0)}
+}
+@keyframes gl2{
+  0%,77%,100%{clip-path:inset(100% 0 0 0)}
+  79%{clip-path:inset(35% 0 35% 0);transform:translate(3px,1px)}
+  82%{clip-path:inset(65% 0 15% 0);transform:translate(-3px,-2px)}
+  85%{clip-path:inset(20% 0 55% 0);transform:translate(4px,0)}
+  88%{clip-path:inset(50% 0 25% 0);transform:translate(-4px,1px)}
+  91%{clip-path:inset(10% 0 70% 0);transform:translate(2px,-1px)}
+  94%{clip-path:inset(75% 0 8% 0);transform:translate(-2px,2px)}
+}
 
 .tag{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:#ffcb2e;text-shadow:0 0 10px rgba(255,203,46,.6);text-align:center}
 .tag .caret{display:inline-block;width:8px;height:12px;background:#ffcb2e;margin-left:6px;vertical-align:-1px;animation:blink 1s infinite}
@@ -121,6 +137,34 @@ a{color:inherit;text-decoration:none}
 .flash.on{animation:flash .6s ease-out}
 @keyframes flash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
 
+/* ========== SPACE WHIPS ========== */
+.whips{position:fixed;inset:0;z-index:2;pointer-events:none}
+.whip{position:absolute;pointer-events:auto;cursor:pointer;transition:filter .4s}
+.whip svg{display:block;filter:drop-shadow(0 0 18px currentColor) drop-shadow(0 0 50px currentColor)}
+.whip .aura{position:absolute;inset:-40px;border-radius:50%;filter:blur(30px);opacity:.5;z-index:-1;transition:opacity .5s,transform .5s}
+.whip.lambo{left:-40px;top:18%;color:#ff8a1a;width:300px;animation:float-l 9s ease-in-out infinite}
+.whip.lambo .aura{background:radial-gradient(circle,rgba(255,138,26,.9),rgba(255,106,0,.3) 55%,transparent 75%)}
+.whip.maybach{right:-50px;top:55%;color:#ffffff;width:340px;animation:float-r 10s ease-in-out infinite,bounce-m 1.4s cubic-bezier(.3,1.5,.5,1) infinite}
+.whip.maybach .aura{background:radial-gradient(circle,rgba(255,255,255,.85),rgba(200,230,255,.25) 55%,transparent 75%)}
+@keyframes float-l{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(20px,-30px) rotate(2deg)}}
+@keyframes float-r{0%,100%{transform:translate(0,0) rotate(2deg)}50%{transform:translate(-25px,-25px) rotate(-2deg)}}
+@keyframes bounce-m{0%,100%{translate:0 0}50%{translate:0 -18px}}
+.whip:hover{filter:brightness(1.4)}
+.whip:hover .aura{opacity:1;transform:scale(1.3)}
+.whip .streak{position:absolute;top:50%;height:3px;border-radius:3px;opacity:0;pointer-events:none}
+.whip.lambo .streak{right:100%;width:0;background:linear-gradient(90deg,transparent,#ffcb2e,#fff)}
+.whip.maybach .streak{left:100%;width:0;background:linear-gradient(90deg,#fff,#7fe7ff,transparent)}
+.whip:hover .streak{animation:zoom 1s ease-out}
+@keyframes zoom{0%{width:0;opacity:0}30%{opacity:1}100%{width:260px;opacity:0}}
+.whip .flare{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff,transparent 60%);opacity:0;pointer-events:none;mix-blend-mode:screen}
+.whip:hover .flare{animation:flareUp .7s ease-out}
+@keyframes flareUp{0%{opacity:0;transform:scale(.5)}40%{opacity:1}100%{opacity:0;transform:scale(1.8)}}
+.whip .rim-glow{position:absolute;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#ffcb2e,transparent 60%);opacity:.7;animation:rim 1.2s linear infinite}
+.whip.maybach .rim-glow{background:radial-gradient(circle,#7fe7ff,transparent 60%)}
+@keyframes rim{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+
+@media (max-width:900px){.whips{display:none}}
+
 /* entry */
 .enter{animation:enter 1s cubic-bezier(.2,.9,.2,1.1) both}
 .enter.d1{animation-delay:.1s}.enter.d2{animation-delay:.25s}.enter.d3{animation-delay:.4s}.enter.d4{animation-delay:.55s}
@@ -139,6 +183,67 @@ a{color:inherit;text-decoration:none}
 
 <!-- animated WebGL-ish canvas (2D plasma, lightweight) -->
 <canvas id="bgcanvas"></canvas>
+
+<div class="whips" aria-hidden="true">
+  <div class="whip lambo" title="Lamborghini">
+    <div class="aura"></div>
+    <div class="flare"></div>
+    <span class="streak"></span>
+    <svg viewBox="0 0 400 130" fill="currentColor">
+      <!-- aggressive wedge lambo silhouette -->
+      <path d="M18 92 L52 78 L78 62 L122 50 L168 40 L220 34 Q266 30 298 38 L332 48 L360 58 L382 70 L388 82 L384 96 L352 102 L320 104 L118 104 L42 102 L20 100 Z" opacity=".98"/>
+      <!-- cockpit glass -->
+      <path d="M152 52 L192 40 Q230 36 260 44 L286 56 L266 62 L170 62 Z" fill="#1a0d00" opacity=".7"/>
+      <!-- air intakes -->
+      <path d="M92 78 L128 74 L128 86 L92 86 Z" fill="#000" opacity=".5"/>
+      <path d="M284 76 L322 74 L322 86 L284 86 Z" fill="#000" opacity=".5"/>
+      <!-- wheels -->
+      <circle cx="96" cy="104" r="20" fill="#0a0a0a"/>
+      <circle cx="96" cy="104" r="13" fill="#2a2015"/>
+      <circle cx="96" cy="104" r="5" fill="#ffcb2e"/>
+      <circle cx="304" cy="104" r="20" fill="#0a0a0a"/>
+      <circle cx="304" cy="104" r="13" fill="#2a2015"/>
+      <circle cx="304" cy="104" r="5" fill="#ffcb2e"/>
+      <!-- headlight -->
+      <path d="M356 70 L378 74 L378 82 L356 84 Z" fill="#fff8d0"/>
+    </svg>
+    <span class="rim-glow" style="left:88px;top:96px"></span>
+    <span class="rim-glow" style="left:296px;top:96px;animation-delay:.3s"></span>
+  </div>
+
+  <div class="whip maybach" title="Maybach">
+    <div class="aura"></div>
+    <div class="flare"></div>
+    <span class="streak"></span>
+    <svg viewBox="0 0 440 140" fill="currentColor">
+      <!-- long luxury limo silhouette -->
+      <path d="M22 96 L42 78 Q60 66 84 62 L120 58 L148 46 L180 40 L280 40 L322 46 L348 56 L380 62 Q410 68 420 80 L424 92 L420 108 L386 112 L50 112 L24 108 Z" opacity=".98"/>
+      <!-- chrome grille strip -->
+      <rect x="390" y="76" width="24" height="14" fill="#bfc9d1" opacity=".9"/>
+      <rect x="390" y="82" width="24" height="2" fill="#7fe7ff"/>
+      <!-- windows -->
+      <path d="M156 46 L186 42 L280 42 L314 50 L314 66 L156 66 Z" fill="#0a0f1a" opacity=".82"/>
+      <rect x="172" y="50" width="38" height="12" fill="#1a2238" opacity=".9"/>
+      <rect x="218" y="50" width="40" height="12" fill="#1a2238" opacity=".9"/>
+      <rect x="266" y="50" width="38" height="12" fill="#1a2238" opacity=".9"/>
+      <!-- door line -->
+      <path d="M226 66 L226 100" stroke="#aab3c0" stroke-width="1.2" opacity=".6"/>
+      <!-- wheels -->
+      <circle cx="102" cy="112" r="22" fill="#0a0a0a"/>
+      <circle cx="102" cy="112" r="14" fill="#1f2630"/>
+      <circle cx="102" cy="112" r="5" fill="#fff"/>
+      <circle cx="342" cy="112" r="22" fill="#0a0a0a"/>
+      <circle cx="342" cy="112" r="14" fill="#1f2630"/>
+      <circle cx="342" cy="112" r="5" fill="#fff"/>
+      <!-- headlight -->
+      <path d="M394 70 L418 76 L418 84 L394 82 Z" fill="#e8f4ff"/>
+      <!-- hood ornament hint -->
+      <circle cx="410" cy="72" r="2.2" fill="#fff"/>
+    </svg>
+    <span class="rim-glow" style="left:94px;top:104px"></span>
+    <span class="rim-glow" style="left:334px;top:104px;animation-delay:.4s"></span>
+  </div>
+</div>
 
 <div class="bolts" id="bolts"></div>
 <div class="scanlines"></div>
@@ -194,9 +299,9 @@ a{color:inherit;text-decoration:none}
       <div class="arr">→</div>
     </a>
 
-    <a class="card" href="https://tiktok.com/@ilovemymom86" data-link="tt" target="_blank" rel="noopener">
+    <a class="card" href="https://tiktok.com/@illovemymom86" data-link="tt" target="_blank" rel="noopener">
       <div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.5 2 2 3.5 4 4v3a7 7 0 0 1-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg></div>
-      <div class="lbl"><b>TikTok</b><span>@ilovemymom86</span></div>
+      <div class="lbl"><b>TikTok</b><span>@illovemymom86</span></div>
       <div class="arr">→</div>
     </a>
 
