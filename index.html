@@ -300,54 +300,70 @@ a{color:inherit;text-decoration:none}
   .wrap{padding-top:56px}
 }
 
-/* ============ GOKU TRANSFORMATION OVERLAY ============ */
+/* ============ GOKU POWER-UP OVERLAY (v2) ============ */
 .gokuxfm{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0;visibility:hidden;overflow:hidden}
-.gokuxfm.on{opacity:1;visibility:visible;pointer-events:auto;animation:xfmShake .14s linear 0s 20}
-.gokuxfm-dim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(60,10,0,.75) 0%,rgba(10,0,0,.95) 70%,#000 100%);opacity:0;animation:xfmDim .35s ease-out .05s forwards}
-/* vertical speed light bars behind character */
-.gokuxfm-lines{position:absolute;inset:0;background:
-  linear-gradient(90deg,transparent 0%,rgba(255,255,255,.0) 12%,rgba(255,245,180,.75) 14%,rgba(255,255,255,.95) 16%,rgba(255,245,180,.75) 18%,transparent 22%,
-  transparent 26%,rgba(255,203,46,.0) 28%,rgba(255,203,46,.6) 30%,rgba(255,255,255,.85) 32%,rgba(255,203,46,.6) 34%,transparent 36%,
-  transparent 62%,rgba(255,203,46,.6) 64%,rgba(255,255,255,.85) 66%,rgba(255,203,46,.6) 68%,transparent 70%,
-  transparent 78%,rgba(255,245,180,.75) 82%,rgba(255,255,255,.95) 84%,rgba(255,245,180,.75) 86%,transparent 90%);
-  opacity:0;mix-blend-mode:screen;animation:xfmLines 2.8s ease-out .35s forwards}
-/* rotating spike aura */
-.gokuxfm-rays{position:absolute;left:50%;top:55%;width:220vmax;height:220vmax;transform:translate(-50%,-50%) rotate(0);background:repeating-conic-gradient(from 0deg,rgba(255,203,46,.92) 0deg,rgba(255,203,46,.92) 2.2deg,transparent 2.2deg,transparent 6deg,rgba(255,106,0,.7) 6deg,rgba(255,106,0,.7) 8.2deg,transparent 8.2deg,transparent 14deg);opacity:0;animation:xfmRaySpin 7s linear infinite,xfmRayIn .5s ease-out .25s forwards;mask-image:radial-gradient(circle,transparent 8%,black 14%,black 70%,transparent 92%);-webkit-mask-image:radial-gradient(circle,transparent 8%,black 14%,black 70%,transparent 92%)}
-.gokuxfm-rays.r2{background:repeating-conic-gradient(from 0deg,rgba(255,45,45,.8) 0deg,rgba(255,45,45,.8) 1.4deg,transparent 1.4deg,transparent 10deg,rgba(255,138,26,.5) 10deg,rgba(255,138,26,.5) 12deg,transparent 12deg,transparent 22deg);animation:xfmRaySpin 11s linear reverse infinite,xfmRayIn .5s ease-out .35s forwards;opacity:0;mix-blend-mode:screen}
-/* shock circle pulse */
-.gokuxfm-shock{position:absolute;left:50%;top:55%;width:0;height:0;border-radius:50%;border:6px solid #fff;transform:translate(-50%,-50%);opacity:0;box-shadow:0 0 60px #ffcb2e,inset 0 0 40px #ff6a00;animation:xfmShock .8s cubic-bezier(.2,.8,.2,1) .3s forwards,xfmShock .9s cubic-bezier(.2,.8,.2,1) .9s forwards}
-/* ground shockwave */
-.gokuxfm-ground{position:absolute;left:50%;bottom:6%;width:140vw;height:30vh;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 100%,rgba(255,203,46,.8) 0%,rgba(255,106,0,.5) 30%,rgba(255,45,45,.25) 60%,transparent 85%);opacity:0;animation:xfmGround 2.5s ease-out .4s forwards;mix-blend-mode:screen}
-/* hero image */
-.gokuxfm-hero{position:absolute;left:50%;top:55%;width:min(72vh,520px);height:auto;transform:translate(-50%,-50%) scale(.3);opacity:0;filter:drop-shadow(0 0 40px #ff6a00) drop-shadow(0 0 80px rgba(255,45,45,.7));animation:xfmHeroIn .7s cubic-bezier(.2,1.3,.3,1) .35s forwards,xfmHeroFloat 1.8s ease-in-out .9s infinite}
-/* text splash */
-.gokuxfm-text{position:absolute;left:50%;top:22%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2vh;font-family:"Orbitron","JetBrains Mono",monospace;font-weight:900;text-transform:uppercase;letter-spacing:.02em;line-height:.9;text-align:center;pointer-events:none}
-.gokuxfm-text span{opacity:0;display:inline-block;color:#fff;-webkit-text-stroke:3px #000;text-shadow:0 0 20px #ffcb2e,0 0 40px #ff6a00,6px 6px 0 #ff2d2d,-3px -3px 0 #000;transform:translateY(-40px) scale(.4) skewX(-12deg)}
-.gokuxfm-text .w1{font-size:clamp(40px,9vw,110px);animation:xfmWord .5s cubic-bezier(.2,1.6,.3,1) .55s forwards,xfmWobble .4s ease-in-out 1.05s 2}
-.gokuxfm-text .w2{font-size:clamp(34px,7vw,84px);color:#ffcb2e;animation:xfmWord .5s cubic-bezier(.2,1.6,.3,1) .8s forwards,xfmWobble .4s ease-in-out 1.3s 2}
-.gokuxfm-text .w3{font-size:clamp(60px,14vw,190px);color:#ffcb2e;-webkit-text-stroke:5px #000;text-shadow:0 0 30px #fff,0 0 60px #ffcb2e,8px 8px 0 #ff2d2d,-4px -4px 0 #000;animation:xfmWord .55s cubic-bezier(.15,1.8,.25,1) 1.1s forwards,xfmWobble .45s ease-in-out 1.65s 3}
-.gokuxfm-text .w4{font-size:clamp(70px,18vw,260px);color:#fff;-webkit-text-stroke:6px #000;text-shadow:0 0 40px #ffcb2e,0 0 90px #ff2d2d,10px 10px 0 #ff2d2d,-5px -5px 0 #000;animation:xfmWordBoy .6s cubic-bezier(.1,2,.25,1) 1.55s forwards}
-/* hot flash */
-.gokuxfm-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 55%,#fff 0%,#ffe27a 18%,rgba(255,106,0,.4) 45%,transparent 70%);opacity:0;animation:xfmFlash .28s ease-out .3s,xfmFlash .18s ease-out 1.1s,xfmFlash .2s ease-out 1.55s}
+.gokuxfm.on{opacity:1;visibility:visible;pointer-events:auto}
+.gokuxfm.on{animation:xfmShake .16s linear 0s 24}
+/* dim dark backdrop */
+.gokuxfm-dim{position:absolute;inset:0;background:radial-gradient(ellipse at 35% 55%,rgba(80,20,0,.55) 0%,rgba(15,5,0,.93) 55%,#000 100%);opacity:0;animation:xfmDim .4s ease-out .05s forwards}
+/* Goku position: left-center. Aura layers are anchored to his position */
+.gokuxfm-hero{position:absolute;left:32%;top:50%;width:min(78vh,560px);height:auto;transform:translate(-50%,-50%) scale(.4);opacity:0;filter:drop-shadow(0 0 30px #ff6a00) drop-shadow(0 0 70px rgba(255,45,45,.75));animation:xfmHeroIn .8s cubic-bezier(.2,1.3,.3,1) .3s forwards,xfmHeroPulse .22s ease-in-out .9s infinite,xfmHeroFloat 2.4s ease-in-out 1.2s infinite;z-index:5}
+/* pulsing flame halo behind goku — 3 stacked layers, each pulsing at different speed */
+.gokuxfm-halo{position:absolute;left:32%;top:50%;width:min(110vh,780px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%) scale(0);pointer-events:none;mix-blend-mode:screen;opacity:0}
+.gokuxfm-halo.h1{background:radial-gradient(circle,rgba(255,245,180,.75) 0%,rgba(255,203,46,.55) 18%,rgba(255,106,0,.35) 40%,rgba(255,45,45,.15) 62%,transparent 82%);animation:xfmHaloIn .5s ease-out .35s forwards,xfmHaloPulse .6s ease-in-out .95s infinite}
+.gokuxfm-halo.h2{background:radial-gradient(circle,rgba(255,255,255,.45) 0%,rgba(255,203,46,.35) 25%,rgba(255,106,0,.25) 50%,transparent 75%);animation:xfmHaloIn .5s ease-out .45s forwards,xfmHaloPulse .82s ease-in-out 1.1s infinite;width:min(140vh,960px)}
+.gokuxfm-halo.h3{background:radial-gradient(circle,rgba(255,138,26,.35) 0%,rgba(255,45,45,.22) 35%,rgba(120,0,0,.12) 60%,transparent 85%);animation:xfmHaloIn .5s ease-out .55s forwards,xfmHaloPulse 1.05s ease-in-out 1.3s infinite;width:min(170vh,1200px)}
+/* concentric shock rings expanding outward */
+.gokuxfm-ring{position:absolute;left:32%;top:50%;width:0;height:0;border-radius:50%;border:4px solid #fff;transform:translate(-50%,-50%);opacity:0;box-shadow:0 0 40px #ffcb2e;mix-blend-mode:screen}
+.gokuxfm-ring.k1{animation:xfmRing .9s cubic-bezier(.2,.8,.2,1) .45s forwards,xfmRing 1s cubic-bezier(.2,.8,.2,1) 1.3s forwards,xfmRing 1.1s cubic-bezier(.2,.8,.2,1) 2.2s forwards}
+.gokuxfm-ring.k2{animation:xfmRing 1.1s cubic-bezier(.2,.8,.2,1) .75s forwards,xfmRing 1.1s cubic-bezier(.2,.8,.2,1) 1.85s forwards;border-color:#ffcb2e;box-shadow:0 0 60px #ff6a00}
+/* tight rotating aura spikes around goku (ring-masked, not full screen) */
+.gokuxfm-rays{position:absolute;left:32%;top:50%;width:min(130vh,900px);aspect-ratio:1;transform:translate(-50%,-50%) rotate(0);opacity:0;mix-blend-mode:screen;background:repeating-conic-gradient(from 0deg,rgba(255,203,46,.9) 0deg,rgba(255,203,46,.9) 1.8deg,transparent 1.8deg,transparent 7deg,rgba(255,106,0,.55) 7deg,rgba(255,106,0,.55) 9deg,transparent 9deg,transparent 15deg);animation:xfmRaySpin 5.5s linear infinite,xfmRayIn .55s ease-out .4s forwards;mask-image:radial-gradient(circle,transparent 22%,black 30%,black 55%,transparent 72%);-webkit-mask-image:radial-gradient(circle,transparent 22%,black 30%,black 55%,transparent 72%)}
+.gokuxfm-rays.r2{background:repeating-conic-gradient(from 0deg,rgba(255,45,45,.75) 0deg,rgba(255,45,45,.75) 1deg,transparent 1deg,transparent 12deg,rgba(255,138,26,.5) 12deg,rgba(255,138,26,.5) 13deg,transparent 13deg,transparent 26deg);animation:xfmRaySpin 9s linear reverse infinite,xfmRayIn .55s ease-out .55s forwards;width:min(160vh,1100px)}
+/* lightning bolts — random crackle around goku */
+.gokuxfm-bolt{position:absolute;left:32%;top:50%;width:2px;height:180px;background:linear-gradient(180deg,transparent 0%,#fff 20%,#fff 80%,transparent 100%);box-shadow:0 0 18px #ffcb2e,0 0 36px #fff;transform-origin:top center;opacity:0;mix-blend-mode:screen}
+.gokuxfm-bolt.b1{animation:xfmBolt .35s ease-out 1.05s 3}
+.gokuxfm-bolt.b2{animation:xfmBolt .35s ease-out 1.4s 3}
+.gokuxfm-bolt.b3{animation:xfmBolt .35s ease-out 1.75s 3}
+.gokuxfm-bolt.b4{animation:xfmBolt .35s ease-out 2.1s 3}
+.gokuxfm-bolt.b5{animation:xfmBolt .35s ease-out 2.45s 3}
+.gokuxfm-bolt.b6{animation:xfmBolt .35s ease-out 2.8s 3}
+/* rising embers */
+.gokuxfm-emb{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffcb2e;box-shadow:0 0 12px #ff6a00;opacity:0;pointer-events:none}
+/* ground flare */
+.gokuxfm-ground{position:absolute;left:32%;bottom:2%;width:90vh;height:22vh;max-width:900px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 100%,rgba(255,203,46,.85) 0%,rgba(255,106,0,.5) 35%,rgba(255,45,45,.2) 65%,transparent 90%);opacity:0;animation:xfmGround 2.8s ease-out .45s forwards;mix-blend-mode:screen}
+/* WORDS — slam down on RIGHT side synced with yell */
+.gokuxfm-text{position:absolute;right:4%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-end;gap:2.5vh;font-family:"Orbitron","JetBrains Mono",monospace;font-weight:900;text-transform:uppercase;letter-spacing:.02em;line-height:.9;pointer-events:none;max-width:55vw}
+.gokuxfm-text span{opacity:0;display:inline-block;color:#fff;-webkit-text-stroke:3px #000;text-shadow:6px 6px 0 #ff2d2d,-3px -3px 0 #000,0 0 22px #ffcb2e;transform:translateY(-120px) scale(.5) rotate(-4deg)}
+.gokuxfm-text .w1{font-size:clamp(48px,8vw,124px);color:#ffcb2e;animation:xfmSlam .45s cubic-bezier(.15,1.7,.3,1) .55s forwards,xfmWobble .35s ease-in-out 1.0s 2}
+.gokuxfm-text .w2{font-size:clamp(36px,5.5vw,78px);color:#fff;animation:xfmSlam .45s cubic-bezier(.15,1.7,.3,1) .95s forwards,xfmWobble .35s ease-in-out 1.4s 2}
+.gokuxfm-text .w3{font-size:clamp(64px,12vw,180px);color:#ffcb2e;-webkit-text-stroke:5px #000;text-shadow:8px 8px 0 #ff2d2d,-4px -4px 0 #000,0 0 40px #fff,0 0 70px #ff6a00;animation:xfmSlam .5s cubic-bezier(.1,1.9,.25,1) 1.4s forwards,xfmWobble .35s ease-in-out 1.9s 3}
+.gokuxfm-text .w4{font-size:clamp(90px,18vw,260px);color:#fff;-webkit-text-stroke:7px #000;text-shadow:12px 12px 0 #ff2d2d,-6px -6px 0 #000,0 0 50px #ffcb2e,0 0 120px #ff2d2d;animation:xfmSlamBoy .55s cubic-bezier(.08,2,.2,1) 1.95s forwards}
+/* quick flashes */
+.gokuxfm-flash{position:absolute;inset:0;background:radial-gradient(circle at 32% 50%,#fff 0%,#ffe27a 14%,rgba(255,106,0,.4) 36%,transparent 65%);opacity:0;mix-blend-mode:screen;animation:xfmFlash .22s ease-out .3s,xfmFlash .14s ease-out .8s,xfmFlash .14s ease-out 1.4s,xfmFlash .16s ease-out 1.95s}
 /* skip button */
-.gokuxfm-skip{position:absolute;top:22px;right:24px;padding:10px 18px;background:rgba(0,0,0,.55);border:2px solid #ffcb2e;color:#ffcb2e;font-family:"JetBrains Mono",monospace;font-weight:800;font-size:12px;letter-spacing:.3em;border-radius:999px;cursor:pointer;backdrop-filter:blur(6px);z-index:10;transition:background .2s,transform .2s}
+.gokuxfm-skip{position:absolute;top:22px;right:24px;padding:10px 18px;background:rgba(0,0,0,.6);border:2px solid #ffcb2e;color:#ffcb2e;font-family:"JetBrains Mono",monospace;font-weight:800;font-size:12px;letter-spacing:.3em;border-radius:999px;cursor:pointer;backdrop-filter:blur(6px);z-index:20;transition:background .2s,transform .2s}
 .gokuxfm-skip:hover{background:#ffcb2e;color:#000;transform:scale(1.06)}
 
 @keyframes xfmDim{from{opacity:0}to{opacity:1}}
-@keyframes xfmLines{0%{opacity:0;transform:scaleX(.3)}20%{opacity:.9}80%{opacity:.5}100%{opacity:0}}
+@keyframes xfmHeroIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-6deg)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(2deg)}75%{transform:translate(-50%,-50%) scale(.97)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes xfmHeroFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-10px)}}
+@keyframes xfmHeroPulse{0%,100%{filter:drop-shadow(0 0 30px #ff6a00) drop-shadow(0 0 70px rgba(255,45,45,.75)) brightness(1)}50%{filter:drop-shadow(0 0 60px #ffcb2e) drop-shadow(0 0 140px rgba(255,106,0,.95)) brightness(1.25)}}
+@keyframes xfmHaloIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes xfmHaloPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}}
 @keyframes xfmRaySpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-@keyframes xfmRayIn{0%{opacity:0}100%{opacity:.75}}
-@keyframes xfmShock{0%{width:0;height:0;opacity:1;border-width:8px}80%{opacity:.4}100%{width:180vmax;height:180vmax;opacity:0;border-width:1px}}
-@keyframes xfmGround{0%{opacity:0;transform:translateX(-50%) scaleY(.3)}30%{opacity:1}100%{opacity:.7;transform:translateX(-50%) scaleY(1.1)}}
-@keyframes xfmHeroIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-8deg)}55%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}80%{transform:translate(-50%,-50%) scale(.97)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@keyframes xfmHeroFloat{0%,100%{filter:drop-shadow(0 0 40px #ff6a00) drop-shadow(0 0 80px rgba(255,45,45,.7))}50%{filter:drop-shadow(0 0 60px #ffcb2e) drop-shadow(0 0 120px rgba(255,106,0,.9))}}
-@keyframes xfmWord{0%{opacity:0;transform:translateY(-80px) scale(.3) skewX(-22deg) rotate(-8deg)}55%{opacity:1;transform:translateY(6px) scale(1.18) skewX(-6deg) rotate(2deg)}80%{transform:translateY(-2px) scale(.96) skewX(-8deg)}100%{opacity:1;transform:translateY(0) scale(1) skewX(-8deg)}}
-@keyframes xfmWordBoy{0%{opacity:0;transform:translateY(-120px) scale(.2) rotate(-15deg)}45%{opacity:1;transform:translateY(12px) scale(1.3) rotate(3deg)}70%{transform:translateY(-4px) scale(.92) rotate(-1deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
-@keyframes xfmWobble{0%,100%{filter:hue-rotate(0)}50%{filter:hue-rotate(20deg) brightness(1.3)}}
+@keyframes xfmRayIn{0%{opacity:0}100%{opacity:.8}}
+@keyframes xfmRing{0%{width:0;height:0;opacity:1;border-width:6px}80%{opacity:.35}100%{width:min(180vh,1400px);height:min(180vh,1400px);opacity:0;border-width:1px}}
+@keyframes xfmBolt{0%{opacity:0;transform:rotate(var(--r,0deg)) translateY(var(--d,-220px)) scaleY(0)}30%{opacity:1;transform:rotate(var(--r,0deg)) translateY(var(--d,-220px)) scaleY(1)}100%{opacity:0;transform:rotate(var(--r,0deg)) translateY(var(--d,-220px)) scaleY(.8)}}
+@keyframes xfmEmber{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(var(--ex,0),var(--ey,-300px)) scale(.2)}}
+@keyframes xfmGround{0%{opacity:0;transform:translateX(-50%) scaleY(.2)}30%{opacity:1}100%{opacity:.85;transform:translateX(-50%) scaleY(1.15)}}
+@keyframes xfmSlam{0%{opacity:0;transform:translateY(-200px) scale(.3) rotate(-14deg)}55%{opacity:1;transform:translateY(14px) scale(1.18) rotate(2deg)}80%{transform:translateY(-4px) scale(.96) rotate(-1deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes xfmSlamBoy{0%{opacity:0;transform:translateY(-260px) scale(.25) rotate(-18deg)}50%{opacity:1;transform:translateY(18px) scale(1.28) rotate(4deg)}78%{transform:translateY(-6px) scale(.92) rotate(-2deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes xfmWobble{0%,100%{filter:brightness(1) hue-rotate(0)}50%{filter:brightness(1.5) hue-rotate(18deg)}}
 @keyframes xfmFlash{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
-@keyframes xfmShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-8px,4px)}40%{transform:translate(9px,-5px)}60%{transform:translate(-6px,3px)}80%{transform:translate(5px,-3px)}}
-.gokuxfm.out{animation:xfmOut .5s ease-in forwards}
-@keyframes xfmOut{to{opacity:0;transform:scale(1.05)}}
+@keyframes xfmShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-7px,3px)}40%{transform:translate(8px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(4px,-2px)}}
+.gokuxfm.out{animation:xfmOut .45s ease-in forwards}
+@keyframes xfmOut{to{opacity:0;transform:scale(1.04)}}
 </style>
 </head>
 <body>
@@ -465,14 +481,23 @@ a{color:inherit;text-decoration:none}
 <audio id="a-warrior" src="assets/warrior.mp3" preload="auto"></audio>
 <audio id="a-yell" src="assets/goku-yell.mp3" preload="auto"></audio>
 
-<!-- GOKU TRANSFORMATION OVERLAY -->
+<!-- GOKU POWER-UP OVERLAY -->
 <div id="gokuXfm" class="gokuxfm" aria-hidden="true">
   <div class="gokuxfm-dim"></div>
-  <div class="gokuxfm-lines"></div>
+  <div class="gokuxfm-halo h3"></div>
+  <div class="gokuxfm-halo h2"></div>
+  <div class="gokuxfm-halo h1"></div>
   <div class="gokuxfm-rays"></div>
   <div class="gokuxfm-rays r2"></div>
-  <div class="gokuxfm-shock"></div>
+  <div class="gokuxfm-ring k1"></div>
+  <div class="gokuxfm-ring k2"></div>
   <div class="gokuxfm-ground"></div>
+  <div class="gokuxfm-bolt b1" style="--r:18deg;--d:-260px"></div>
+  <div class="gokuxfm-bolt b2" style="--r:-35deg;--d:-300px"></div>
+  <div class="gokuxfm-bolt b3" style="--r:72deg;--d:-240px"></div>
+  <div class="gokuxfm-bolt b4" style="--r:-100deg;--d:-280px"></div>
+  <div class="gokuxfm-bolt b5" style="--r:140deg;--d:-260px"></div>
+  <div class="gokuxfm-bolt b6" style="--r:-160deg;--d:-300px"></div>
   <img class="gokuxfm-hero" src="assets/goku-transform.png" alt="" draggable="false"/>
   <div class="gokuxfm-text">
     <span class="w1">GET</span>
