@@ -132,15 +132,32 @@ a{color:inherit;text-decoration:none}
 .foot{margin-top:60px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#555}
 .foot .lvl{color:#ffcb2e}
 
-/* tab hover beam — fires across the whole screen */
-.tabbeam{position:fixed;left:0;right:0;height:14px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;z-index:3;border-radius:20px;background:linear-gradient(90deg,transparent 0%,rgba(255,106,0,.9) 12%,#ffcb2e 42%,#ffffff 52%,#ffcb2e 62%,rgba(255,106,0,.9) 88%,transparent 100%)}
-.tabbeam.fire{animation:tabBeam 1.1s cubic-bezier(.15,.9,.2,1) forwards}
+/* tab hover beam — real aggressive energy beam across full screen */
+.tabbeam{position:fixed;left:0;right:0;height:60px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;z-index:3;overflow:visible}
+.tabbeam::before,.tabbeam::after,.tabbeam>span{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
+/* outer orange halo — soft falloff */
+.tabbeam::before{height:50px;background:radial-gradient(ellipse 50% 100% at 50% 50%,rgba(255,106,0,.55) 0%,rgba(255,106,0,.25) 35%,rgba(255,45,45,.08) 65%,transparent 85%)}
+/* mid yellow body */
+.tabbeam::after{height:14px;background:linear-gradient(90deg,transparent 0%,rgba(255,203,46,.0) 6%,rgba(255,170,30,.95) 18%,#ffd84a 38%,#fff2b0 48%,#ffffff 50%,#fff2b0 52%,#ffd84a 62%,rgba(255,170,30,.95) 82%,transparent 100%);filter:none}
+/* hot white core — razor thin */
+.tabbeam>span{height:3px;background:linear-gradient(90deg,transparent 0%,#fff 15%,#fff 85%,transparent 100%);box-shadow:0 0 1px #fff}
+.tabbeam.fire{animation:tabBeam 1s cubic-bezier(.1,.95,.25,1) forwards}
+.tabbeam.fire::before{animation:tabBeamFlick 1s steps(12,end) forwards}
 @keyframes tabBeam{
   0%{opacity:0;transform:translateY(-50%) scaleX(0)}
-  12%{opacity:1}
+  8%{opacity:1;transform:translateY(-50%) scaleX(.15)}
   55%{opacity:1;transform:translateY(-50%) scaleX(1)}
-  85%{opacity:.9}
-  100%{opacity:0;transform:translateY(-50%) scaleX(1.1)}
+  70%{opacity:1;transform:translateY(-50%) scaleX(1.02)}
+  100%{opacity:0;transform:translateY(-50%) scaleX(1.08)}
+}
+@keyframes tabBeamFlick{
+  0%,100%{opacity:.9}
+  10%{opacity:1}
+  22%{opacity:.7}
+  34%{opacity:1}
+  46%{opacity:.85}
+  58%{opacity:1}
+  72%{opacity:.75}
 }
 
 /* power-up overlay on tap */
@@ -599,6 +616,7 @@ a{color:inherit;text-decoration:none}
 (() => {
   const beam = document.createElement('div');
   beam.className = 'tabbeam';
+  beam.innerHTML = '<span></span>';
   document.body.appendChild(beam);
   let armed = true;
   document.querySelectorAll('.card').forEach(card => {
