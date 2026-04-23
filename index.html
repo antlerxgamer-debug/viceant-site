@@ -150,10 +150,8 @@ a{color:inherit;text-decoration:none}
 @keyframes float-l{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(20px,-30px) rotate(2deg)}}
 @keyframes float-r{0%,100%{transform:translate(0,0) rotate(2deg)}50%{transform:translate(-25px,-25px) rotate(-2deg)}}
 @keyframes bounce-m{0%,100%{translate:0 0}50%{translate:0 -18px}}
-.whip:hover{filter:brightness(1.5) contrast(1.05);transform:scale(1.08)}
-.whip:hover .aura{opacity:1;transform:scale(1.45)}
-.whip:hover img{animation:carPunch .55s cubic-bezier(.2,1.5,.3,1)}
-@keyframes carPunch{0%{transform:scale(1)}40%{transform:scale(1.1) rotate(-1deg)}70%{transform:scale(.98) rotate(.5deg)}100%{transform:scale(1)}}
+.whip:hover{filter:brightness(1.4)}
+.whip:hover .aura{opacity:1;transform:scale(1.35)}
 .whip .streak{position:absolute;top:50%;height:3px;border-radius:3px;opacity:0;pointer-events:none}
 .whip.lambo .streak{right:100%;width:0;background:linear-gradient(90deg,transparent,#ffcb2e,#fff)}
 .whip.maybach .streak{left:100%;width:0;background:linear-gradient(90deg,#fff,#7fe7ff,transparent)}
@@ -167,7 +165,7 @@ a{color:inherit;text-decoration:none}
 .whip .beam{position:absolute;top:50%;height:6px;transform:translateY(-50%) scaleX(0);transform-origin:center;opacity:0;pointer-events:none;mix-blend-mode:screen;border-radius:6px}
 .whip .beam.l{right:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:right center}
 .whip .beam.r{left:80%;width:60vw;background:linear-gradient(90deg,transparent 0%,currentColor 15%,#fff 50%,currentColor 85%,transparent 100%);transform-origin:left center}
-.whip .beam::before,.whip .beam::after{content:"";position:absolute;inset:-6px -20px;background:inherit;filter:blur(14px);opacity:.9;border-radius:20px}
+.whip .beam{box-shadow:0 0 14px currentColor,0 0 30px currentColor}
 .whip:hover .beam{animation:beamShoot .9s cubic-bezier(.15,.9,.2,1) forwards}
 .whip:hover .beam.l{animation-delay:.05s}
 .whip:hover .beam.r{animation-delay:.08s}
@@ -218,13 +216,10 @@ a{color:inherit;text-decoration:none}
   100%{width:220%;height:700px;opacity:0;border-width:1px}
 }
 
-/* rotating hexagonal energy ring behind the car */
-.whip .hex{position:absolute;inset:-5% -10%;border-radius:50%;opacity:0;pointer-events:none;background:
-  conic-gradient(from 0deg,transparent 0 10%, currentColor 11% 12%, transparent 12% 30%, currentColor 31% 32%, transparent 32% 50%, currentColor 51% 52%, transparent 52% 70%, currentColor 71% 72%, transparent 72% 90%, currentColor 91% 92%, transparent 92% 100%);
-  filter:blur(1px) drop-shadow(0 0 10px currentColor);
-  mix-blend-mode:screen}
-.whip:hover .hex{animation:hexSpin 1.2s ease-out}
-@keyframes hexSpin{0%{opacity:0;transform:rotate(0) scale(.6)}30%{opacity:.9}100%{opacity:0;transform:rotate(260deg) scale(1.4)}}
+/* rotating energy ring behind the car (light version) */
+.whip .hex{position:absolute;inset:-5% -10%;border-radius:50%;opacity:0;pointer-events:none;border:2px dashed currentColor;box-shadow:0 0 20px currentColor}
+.whip:hover .hex{animation:hexSpin 1s ease-out}
+@keyframes hexSpin{0%{opacity:0;transform:rotate(0) scale(.7)}30%{opacity:.7}100%{opacity:0;transform:rotate(200deg) scale(1.3)}}
 
 /* camera shake when ANY whip is hovered (JS toggles body class) */
 body.shake{animation:camShake .55s cubic-bezier(.36,.07,.19,.97)}
@@ -267,7 +262,6 @@ body.shake{animation:camShake .55s cubic-bezier(.36,.07,.19,.97)}
   <div class="whip lambo" title="Lamborghini Huracán">
     <div class="aura"></div>
     <div class="shockwave"></div>
-    <div class="shockwave d2"></div>
     <div class="flare"></div>
     <span class="streak"></span>
     <div class="beam l"></div>
@@ -283,7 +277,6 @@ body.shake{animation:camShake .55s cubic-bezier(.36,.07,.19,.97)}
   <div class="whip maybach" title="Mercedes-Maybach GLS 600">
     <div class="aura"></div>
     <div class="shockwave"></div>
-    <div class="shockwave d2"></div>
     <div class="flare"></div>
     <span class="streak"></span>
     <div class="beam l"></div>
@@ -483,7 +476,7 @@ body.shake{animation:camShake .55s cubic-bezier(.36,.07,.19,.97)}
     b.appendChild(el);
     setTimeout(() => el.remove(), 2500);
   };
-  setInterval(() => { if (Math.random() < .75) mk(); }, 900);
+  setInterval(() => { if (Math.random() < .55) mk(); }, 1400);
 })();
 
 /* ============ POWER LEVEL COUNTER ============ */
@@ -561,7 +554,7 @@ body.shake{animation:camShake .55s cubic-bezier(.36,.07,.19,.97)}
 /* ============ WHIPS: shake + spark bursts ============ */
 (() => {
   const whips = document.querySelectorAll('.whip');
-  const mkSparks = (container, side, count = 14) => {
+  const mkSparks = (container, side, count = 8) => {
     container.innerHTML = '';
     for (let i = 0; i < count; i++) {
       const s = document.createElement('i');
