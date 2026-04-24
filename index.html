@@ -352,9 +352,97 @@ a{color:inherit;text-decoration:none}
 /* select */
 ::selection{background:#ffcb2e;color:#000}
 
+/* ============ MOBILE OPTIMIZATION ============ */
+@media (max-width:900px){
+  /* hide heavy floating vehicle cards */
+  .whips{display:none}
+  /* tone HUD down */
+  .hud{font-size:9px;padding:0 10px;top:10px}
+  .sfx{padding:6px 10px;font-size:10px;top:10px;right:10px}
+}
+
+@media (max-width:768px){
+  /* smaller hero + tighter spacing */
+  .hero{width:210px;height:210px}
+  .wrap{padding-top:48px;padding-bottom:120px}
+  /* links: full-width, tap-friendly */
+  .links a{padding:16px 16px;font-size:14px}
+  .links a .t{font-size:15px}
+  .links a .s{font-size:11px}
+  /* ENTER gate: scale down title + buttons */
+  .eg-title{font-size:clamp(44px,14vw,96px);-webkit-text-stroke-width:2px}
+  .eg-title .eg-glow{-webkit-text-stroke-width:2px}
+  .eg-sub{font-size:11px;letter-spacing:.35em}
+  .eg-sub-bot{font-size:13px;letter-spacing:.3em}
+  .eg-tag{font-size:10px;letter-spacing:.4em}
+  .eg-press{padding:11px 26px;margin-top:28px}
+  .eg-press-text{font-size:13px;letter-spacing:.25em}
+  .eg-press::before,.eg-press::after{width:16px}
+  .eg-press::before{left:-24px}
+  .eg-press::after{right:-24px}
+  /* trim mario ground — smaller everything */
+  body{padding-bottom:72px}
+  .mground{height:72px !important}
+  .mground-grass{bottom:32px;height:18px}
+  .mground-dirt{bottom:0;height:32px}
+  .mground-pipe{bottom:32px;width:52px;height:56px}
+  .mground-block{bottom:80px;width:30px;height:30px}
+  .mground-brick{bottom:118px;width:90px;height:30px}
+  .mground-coin{bottom:124px;width:18px;height:22px}
+  .mground-bush{bottom:46px;height:20px}
+  /* smaller fighters on mobile (less CPU, less screen coverage) */
+  .fighter{width:42px;height:56px;bottom:50px}
+  .fighter.g3{right:18%}
+  .fighter.g4{right:4%}
+  /* smaller ki/beam */
+  .kiblast{width:18px;height:12px}
+  .kamebeam{height:14px}
+  .impact-ring{width:34px;height:34px;bottom:72px}
+  .impact-burst{bottom:72px;height:28px}
+  /* power-up overlays — cap aura sizes so they don't blast past viewport */
+  .gokuxfm-aw{width:90vmin;height:90vmin}
+  .gokuxfm-am{width:58vmin;height:62vmin}
+  .gokuxfm-ac{width:36vmin;height:44vmin}
+}
+
 @media (max-width:480px){
-  .hero{width:190px;height:190px}
-  .wrap{padding-top:56px}
+  .hero{width:180px;height:180px}
+  .wrap{padding-top:40px}
+  /* quote + tagline tighter */
+  .tagline{font-size:11px;letter-spacing:.22em}
+  .quote{font-size:13px;padding:0 12px}
+  /* links */
+  .links{gap:10px}
+  .links a{padding:14px 14px}
+  .links a .t{font-size:14px}
+  .links a .s{font-size:10px;letter-spacing:.18em}
+  /* even smaller mario ground on phones */
+  body{padding-bottom:60px}
+  .mground{height:60px !important}
+  .mground-grass{bottom:26px;height:14px}
+  .mground-dirt{bottom:0;height:26px}
+  .mground-pipe{bottom:26px;width:40px;height:44px}
+  .mground-block{bottom:66px;width:24px;height:24px;font-size:14px}
+  .mground-brick{bottom:98px;width:72px;height:24px}
+  .mground-coin{bottom:102px;width:14px;height:18px}
+  .mground-bush{bottom:38px;height:16px;width:48px}
+  .fighter{width:36px;height:48px;bottom:42px}
+  /* ENTER gate: tighter stacking */
+  .eg-title{font-size:clamp(38px,15vw,72px)}
+  .eg-press{margin-top:22px;padding:10px 20px}
+  .eg-press-text{font-size:11px}
+  .eg-sub-top{margin-bottom:16px}
+  .eg-sub-bot{margin-top:20px;font-size:11px}
+  /* sparks: fewer + smaller (less DOM, less paint) */
+  .eg-sparks span:nth-child(n+10){display:none}
+}
+
+/* touch — no hover effects on devices that can't hover */
+@media (hover:none){
+  .links a:hover{transform:none}
+  .whips{display:none}
+  /* disable heavy hover auras */
+  .whip:hover .aura,.whip:hover .beam{animation:none;opacity:0}
 }
 
 /* ============ GOKU POWER-UP (v3, CRM port — orange) ============ */
@@ -796,21 +884,27 @@ body{padding-bottom:84px}
 (() => {
   const c = document.getElementById('bgcanvas');
   const x = c.getContext('2d', { alpha: false });
+  // mobile perf: cap pixel ratio at 1, smaller render targets
+  const isMobileBG = matchMedia('(max-width:768px)').matches || matchMedia('(hover:none)').matches;
+  const dpr = isMobileBG ? 1 : Math.min(devicePixelRatio, 2);
   let W, H, t = 0;
-  const fit = () => { W = c.width = innerWidth * devicePixelRatio; H = c.height = innerHeight * devicePixelRatio; };
+  const fit = () => { W = c.width = innerWidth * dpr; H = c.height = innerHeight * dpr; };
   fit(); addEventListener('resize', fit);
 
-  // radial orbs
-  const orbs = Array.from({length: 5}, (_, i) => ({
+  // mobile: throttle to ~30fps (skip every other frame)
+  let frameSkip = 0;
+
+  // radial orbs (fewer on mobile)
+  const orbs = Array.from({length: isMobileBG ? 3 : 5}, (_, i) => ({
     x: Math.random(), y: Math.random(),
     r: 0.35 + Math.random() * 0.25,
-    hue: [35, 28, 48, 12, 42][i],
+    hue: [35, 28, 48, 12, 42][i % 5],
     sx: (Math.random() - .5) * .0002,
     sy: (Math.random() - .5) * .0002,
   }));
 
-  // stars
-  const stars = Array.from({length: 120}, () => ({
+  // stars (fewer on mobile)
+  const stars = Array.from({length: isMobileBG ? 60 : 120}, () => ({
     x: Math.random(), y: Math.random(),
     r: Math.random() * 1.6 + 0.2,
     tw: Math.random() * Math.PI * 2,
@@ -858,7 +952,15 @@ body{padding-bottom:84px}
     gg.addColorStop(1,'rgba(255,106,0,.18)');
     x.fillStyle = gg; x.fillRect(0, H*.7, W, H*.3);
 
-    requestAnimationFrame(draw);
+    if (document.hidden) { setTimeout(() => requestAnimationFrame(draw), 400); return; }
+    if (isMobileBG) {
+      // ~30fps on mobile: every other frame
+      frameSkip = (frameSkip + 1) % 2;
+      if (frameSkip === 0) requestAnimationFrame(draw);
+      else setTimeout(() => requestAnimationFrame(draw), 33);
+    } else {
+      requestAnimationFrame(draw);
+    }
   }
   draw();
 })();
@@ -1403,6 +1505,10 @@ body{padding-bottom:84px}
   let paused = document.hidden;
   document.addEventListener('visibilitychange', () => { paused = document.hidden; });
 
+  // mobile detection — slower cadence + skip heaviest moves to keep phones smooth
+  const isMobile = matchMedia('(max-width:768px)').matches || matchMedia('(hover:none)').matches;
+  const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
   // track each fighter's current Y offset so jumping composes correctly
   const fState = new WeakMap();
   const getY = el => { const s = fState.get(el); return s ? s.y : 0; };
@@ -1653,22 +1759,28 @@ body{padding-bottom:84px}
   const pair = (a, b, colorA, colorB) => {
     fState.set(a, {y:0}); fState.set(b, {y:0});
     const fight = () => {
-      const moves = [
+      // mobile: drop the heaviest moves (spraySpam, double-jump, clash)
+      const lightMoves = [
         () => { charge(a, 300); setTimeout(() => spawnKi(a, b, colorA), 320); },
         () => { charge(b, 300); setTimeout(() => spawnKi(b, a, colorB), 320); },
         () => { charge(a, 520); setTimeout(() => spawnBeam(a, b, colorA, 1.2), 500); },
         () => { charge(b, 520); setTimeout(() => spawnBeam(b, a, colorB, 1.2), 500); },
         () => { jumpAttack(a); setTimeout(() => spawnKi(a, b, colorA), 260); },
         () => { jumpAttack(b); setTimeout(() => spawnKi(b, a, colorB), 260); },
-        () => { jumpAttack(a, 140); setTimeout(() => spawnBeam(a, b, colorA), 320); },
         () => { teleport(a, b); },
+      ];
+      const heavyMoves = [
+        () => { jumpAttack(a, 140); setTimeout(() => spawnBeam(a, b, colorA), 320); },
         () => { spraySpam(a, b, colorA); },
         () => { spraySpam(b, a, colorB); },
         () => { clash(a, b, colorA, colorB); },
         () => { jumpAttack(a); jumpAttack(b); setTimeout(() => { spawnKi(a, b, colorA); spawnKi(b, a, colorB); }, 280); },
       ];
-      if (!paused) moves[Math.floor(Math.random() * moves.length)]();
-      setTimeout(fight, 900 + Math.random() * 1400);
+      const moves = isMobile ? lightMoves : lightMoves.concat(heavyMoves);
+      if (!paused && !reducedMotion) moves[Math.floor(Math.random() * moves.length)]();
+      // mobile: slower cadence (1.6-3.2s) vs desktop (0.9-2.3s)
+      const delay = isMobile ? (1600 + Math.random() * 1600) : (900 + Math.random() * 1400);
+      setTimeout(fight, delay);
     };
     setTimeout(fight, 400 + Math.random() * 1200);
   };
